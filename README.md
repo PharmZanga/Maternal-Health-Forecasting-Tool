@@ -2,6 +2,8 @@
 
 An offline planning prototype for maternal health equipment, devices and birth-related resources. The instruments and product definitions are consultation drafts prepared in the context of a UNFPA consultancy. They are not approved UNFPA publications or validated national standards.
 
+[Open the application in your browser](https://pharmzanga.github.io/Maternal-Health-Forecasting-Tool/).
+
 Download or clone this repository, then open [maternal-needs-forecast.html](maternal-needs-forecast.html) in a modern browser. It is a self-contained HTML application and needs no installation or server. `maternal-needs-forecast.original.html` preserves the initial application used to build this version.
 
 ## Assessment and collection instruments
