@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Birth Needs Forecaster</title>
+<style>
+:root{--bg:#f4f6f4;--surface:#fff;--ink:#14262b;--muted:#5a6d71;--line:#d5dedc;--teal:#1f6f78;--teal-soft:#dcecec;--risk:#b5395b;--risk-soft:#f7e1e8;--gold:#e0a526;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b1e;--surface:#172a2e;--ink:#e6efee;--muted:#9bb0b3;--line:#2b4248;--teal:#5fc0c9;--teal-soft:#1d3a3f;--risk:#f08aa8;--risk-soft:#3a2430;--gold:#e8b94a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1b1e;--surface:#172a2e;--ink:#e6efee;--muted:#9bb0b3;--line:#2b4248;--teal:#5fc0c9;--teal-soft:#1d3a3f;--risk:#f08aa8;--risk-soft:#3a2430;--gold:#e8b94a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style",Georgia,"Times New Roman",serif;font-weight:600;line-height:1.2;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 18px 60px}
+header p{color:var(--muted);max-width:62ch;margin:8px 0 0}
+h1{font-size:clamp(1.7rem,4vw,2.4rem)}
+.tabs{display:flex;gap:6px;margin:22px 0 18px;border-bottom:1px solid var(--line)}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer}
+.tabs button[aria-selected=true]{color:var(--teal);border-color:var(--teal)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.grid{display:grid;grid-template-columns:320px 1fr;gap:20px;align-items:start}
+@media(max-width:820px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.panel h2{font-size:1.15rem;margin-bottom:12px}
+label.f{display:block;font-size:.9rem;margin:12px 0 4px;font-weight:600}
+label.f span{float:right;color:var(--teal);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--teal)}
+input[type=number]{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;cursor:pointer}
+.opt input{margin-top:4px;accent-color:var(--risk)}
+.opt small{display:block;color:var(--muted)}
+.opt.on{border-color:var(--risk);background:var(--risk-soft)}
+.mode .opt.on{border-color:var(--teal);background:var(--teal-soft)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px}
+.kpi b{display:block;font-family:Georgia,serif;font-size:1.6rem;font-variant-numeric:tabular-nums}
+.kpi span{font-size:.82rem;color:var(--muted)}
+.alerts{margin:0 0 16px;padding:0;list-style:none}
+.alerts li{background:var(--risk-soft);border-left:4px solid var(--risk);padding:9px 12px;border-radius:0 8px 8px 0;margin-bottom:6px;font-size:.93rem}
+.alerts li.ok{background:var(--teal-soft);border-color:var(--teal)}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{font-size:.82rem;color:var(--muted);font-weight:600}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.cat td{background:var(--teal-soft);font-weight:700;color:var(--teal);padding:6px 8px}
+.bar{height:6px;background:var(--line);border-radius:3px;margin-top:4px}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:3px}
+.note{font-size:.84rem;color:var(--muted);margin-top:16px;max-width:75ch}
+.tabs{overflow-x:auto}.tabs button{white-space:nowrap}
+input[type=text],select,textarea{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);font:inherit}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2px 18px}
+.feeds{font-style:normal;font-size:.72rem;font-weight:600;color:var(--gold);border:1px solid var(--gold);border-radius:10px;padding:0 6px;margin-left:4px;white-space:nowrap}
+.prog{height:8px;background:var(--line);border-radius:4px}.prog i{display:block;height:100%;width:0;background:var(--teal);border-radius:4px;transition:width .2s}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{background:var(--teal);color:var(--surface);border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:600;cursor:pointer}
+.btn.alt{background:var(--teal-soft);color:var(--teal)}
+#calib{font-size:.85rem;color:var(--teal);margin:-6px 0 6px}
+.hide{display:none}
+
+.equipment-table{min-width:1600px}.equipment-table input{min-width:80px}.equipment-table th{vertical-align:bottom;min-width:88px}.equipment-table th:first-child{min-width:220px}
+.equipment-table label{display:block}.equipment-table small{display:block;color:var(--muted)}
+button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+@media print{.tabs,.actions{display:none}.scroll{overflow:visible}.equipment-table{min-width:0;font-size:8px}.equipment-table input{min-width:0;padding:0}.wrap{max-width:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Birth needs forecaster</h1>
+<p>See what one birth needs, then scale it to a facility or district. Quantities are editable planning assumptions, not clinical orders.</p>
+</header>
+<div class="tabs" role="tablist">
+<button role="tab" id="t1" aria-selected="true">One birth</button>
+<button role="tab" id="t2" aria-selected="false">Facility forecast</button>
+<button role="tab" id="t4" aria-selected="false">Equipment forecast</button>
+<button role="tab" id="t3" aria-selected="false">Country questionnaire</button>
+</div>
+
+<section id="p1" class="grid">
+<div class="panel">
+<h2>Mode of delivery</h2>
+<div class="mode" id="modes"></div>
+<h2 style="margin-top:18px">Risk factors present</h2>
+<div id="risks1"></div>
+</div>
+<div>
+<ul class="alerts" id="alerts1"></ul>
+<div class="kpis" id="kpis1"></div>
+<div class="panel scroll"><table id="tbl1"></table></div>
+</div>
+</section>
+
+<section id="p2" class="grid hide">
+<div class="panel">
+<h2>Facility inputs</h2>
+<div id="calib"></div>
+<label class="f">Births per month</label>
+<input type="number" id="births" value="120" min="1">
+<label class="f">Months to plan for</label>
+<input type="number" id="months" value="3" min="1" max="24">
+<div id="sliders"></div>
+</div>
+<div>
+<div class="kpis" id="kpis2"></div>
+<div class="panel scroll"><table id="tbl2"></table></div>
+</div>
+</section>
+
+
+<section id="p4" class="hide">
+<div class="panel">
+<h2>Maternal equipment and device forecast</h2>
+<p>Uses the Facility forecast activity and planning period. These illustrative device categories and capacity assumptions are not a national equipment standard. Validate service packages, peak concurrency and specifications with facility teams before procurement.</p>
+<div class="qgrid">
+<div><label class="f" for="eqfacility">Facility / planning unit</label><input id="eqfacility" type="text" placeholder="Name and service level"></div>
+<div><label class="f" for="eqdate">Inventory assessment date</label><input id="eqdate" type="date"></div>
+<div><label class="f" for="eqcurrency">Cost currency</label><input id="eqcurrency" type="text" placeholder="e.g. ZMW"></div>
+<div><label class="f" for="equse">Usable capacity (%)</label><input id="equse" type="number" min="1" max="100" value="80"></div>
+<div><label class="f" for="eqpeak">Peak demand allowance (%)</label><input id="eqpeak" type="number" min="0" max="200" value="20"></div>
+</div>
+<p class="note">Capacity is events per device per month at full availability, including cleaning and turnaround. Usable capacity accounts for downtime and operating hours. Minimum units reflect simultaneous service readiness; enter locally agreed values, including zero for services not provided. Functional excludes nonfunctional equipment. Due for replacement is a subset of functional units retiring within this planning period. Repairs and confirmed arrivals must be usable before needed.</p>
+<div id="eqsummary" class="kpis" aria-live="polite"></div>
+<div class="scroll"><table id="eqtable" class="equipment-table"></table></div>
+<p class="note">Required = max(minimum units, ceiling(monthly eligible events × (1 + peak allowance) ÷ (events per unit per month × usable capacity))). Surviving units = functional − due for replacement + confirmed repairs + confirmed incoming. Procurement gap = max(0, required − surviving units). Nonfunctional units are recorded separately; only confirmed repairs count toward supply. Replacement age and lead time inform manual review and do not automatically create units or orders. Estimate each facility separately before aggregating; pooled country totals conceal local gaps.</p>
+<div class="actions"><button class="btn" id="eqexport">Export equipment CSV</button><button class="btn alt" id="saveplan">Save planning data</button><label class="btn alt">Load planning data<input id="loadplan" type="file" accept="application/json,.json" hidden></label></div>
+<p id="eqmsg" role="status" class="note">Inventory is blank until entered. Save planning data to retain your work; nothing is sent to a server.</p>
+</div></section>
+
+<section id="p3" class="hide">
+<div class="panel" style="margin-bottom:16px"><h2>Country questionnaire</h2>
+<p style="margin:0 0 10px;color:var(--muted)">Answer for the latest full year and leave unknown answers blank. Fields marked “feeds forecast” calibrate the Facility forecast tab when you press Apply.</p>
+<div class="prog"><i id="qbar"></i></div><div id="qtxt" class="note" style="margin-top:6px"></div>
+<div class="actions"><button class="btn" id="qapply">Apply to forecast</button><button class="btn alt" id="qdemo">Fill starter values</button><button class="btn alt" id="qcopy">Copy answers</button></div><div id="qmsg" class="note"></div></div>
+<div id="qform"></div>
+<textarea id="qout" class="hide" readonly rows="12"></textarea>
+</section>
+<p class="note">Defaults reflect typical clinical guidance (for example magnesium sulfate for pre-eclampsia, oxytocin and tranexamic acid for haemorrhage) and common prevalence ranges. Replace the risk rates and per-event quantities with your own facility records and national protocols before ordering stock or rostering staff.</p>
+</div>
+
+<script>
+var FTE_H=160;
+const MODES=[
+{k:"vag",n:"Normal vaginal birth",d:"Uncomplicated labour"},
+{k:"assist",n:"Assisted vaginal birth",d:"Vacuum or forceps"},
+{k:"cs",n:"Caesarean section",d:"Planned or emergency"}];
+const RISKS=[
+{k:"pe",n:"Pre-eclampsia or eclampsia",d:"High blood pressure with seizures risk",p:5,alert:"Start the magnesium sulfate pathway and keep antihypertensives and oxygen ready."},
+{k:"pph",n:"Postpartum haemorrhage risk",d:"Grand multipara, prolonged labour, twins",p:8,alert:"Prepare the haemorrhage bundle: uterotonics, tranexamic acid, IV access, and crossmatched blood."},
+{k:"anemia",n:"Severe anaemia",d:"Haemoglobin below 7 g/dL",p:8,alert:"Correct anaemia before birth where possible and reserve blood."},
+{k:"hiv",n:"HIV positive",d:"Mother on or starting ART",p:8,alert:"Confirm maternal ART and give infant prophylaxis at birth."},
+{k:"preterm",n:"Preterm or low birth weight",d:"Before 37 weeks or under 2.5 kg expected",p:10,alert:"Give antenatal steroids if eligible; prepare warmth, oxygen, and kangaroo care space."},
+{k:"sepsis",n:"Infection or prolonged rupture",d:"Fever or membranes ruptured over 18 h",p:3,alert:"Start IV antibiotics early and increase monitoring."}];
+// base: per mode, add: per risk. Units are per event.
+const ITEMS=[
+["Medicines and fluids"],
+{n:"Clean delivery kit",u:"kits",b:{vag:1,assist:1,cs:0}},
+{n:"Oxytocin 10 IU",u:"amps",b:{vag:1,assist:1,cs:3},a:{pph:4}},
+{n:"Misoprostol 200 mcg",u:"tabs",b:{vag:0,assist:0,cs:0},a:{pph:3}},
+{n:"Tranexamic acid 1 g",u:"amps",b:{vag:0,assist:0,cs:0},a:{pph:2}},
+{n:"Magnesium sulfate 5 g",u:"amps",b:{vag:0,assist:0,cs:0},a:{pe:9}},
+{n:"Antihypertensive course",u:"courses",b:{vag:0,assist:0,cs:0},a:{pe:1}},
+{n:"IV fluids 1 L",u:"bags",b:{vag:1,assist:1,cs:3},a:{pph:4,pe:1,sepsis:3}},
+{n:"Antibiotic course",u:"courses",b:{vag:0,assist:1,cs:1},a:{sepsis:1}},
+{n:"IV iron course",u:"courses",b:{vag:0,assist:0,cs:0},a:{anemia:1}},
+{n:"Maternal and infant ARV prophylaxis",u:"courses",b:{vag:0,assist:0,cs:0},a:{hiv:1}},
+{n:"Antenatal steroid course",u:"courses",b:{vag:0,assist:0,cs:0},a:{preterm:1}},
+["Consumables and blood"],
+{n:"Sterile gloves",u:"pairs",b:{vag:6,assist:8,cs:6},a:{pph:4}},
+{n:"Suture pack",u:"packs",b:{vag:0.5,assist:1,cs:1}},
+{n:"Surgical caesarean set",u:"sets",b:{vag:0,assist:0,cs:1}},
+{n:"Spinal anaesthesia kit",u:"kits",b:{vag:0,assist:0,cs:1}},
+{n:"Blood",u:"units",b:{vag:0,assist:0.05,cs:0.1},a:{pph:2,anemia:2}},
+{n:"Oxygen",u:"hours",b:{vag:0,assist:0,cs:1},a:{pe:6,pph:4,preterm:24}},
+["Newborn care"],
+{n:"Chlorhexidine and vitamin K",u:"sets",b:{vag:1,assist:1,cs:1}},
+{n:"Resuscitation (bag and mask)",u:"episodes",b:{vag:0.08,assist:0.15,cs:0.12},a:{preterm:1}},
+{n:"Kangaroo or special care",u:"bed-days",b:{vag:0,assist:0,cs:0},a:{preterm:7}},
+["Staff time and beds"],
+{n:"Midwife time",u:"hours",b:{vag:8,assist:10,cs:6},a:{pe:6,pph:4,sepsis:4,preterm:4,hiv:1}},
+{n:"Obstetrician time",u:"hours",b:{vag:0.2,assist:1.5,cs:2},a:{pe:2,pph:3,sepsis:1}},
+{n:"Anaesthetist time",u:"hours",b:{vag:0,assist:0,cs:1.5},a:{pph:1}},
+{n:"Maternity bed",u:"bed-days",b:{vag:1.5,assist:2,cs:4},a:{pe:3,pph:2,sepsis:3,anemia:1}}];
+
+const $=id=>document.getElementById(id);
+const fmt=x=>x>=100?Math.round(x).toLocaleString():x>=10?x.toFixed(1):x.toFixed(2).replace(/\.?0+$/,"")||"0";
+function qty(it,mp,rp){let q=0;for(const m in mp)q+=mp[m]*(it.b[m]||0);if(it.a)for(const r in it.a)q+=(rp[r]||0)*it.a[r];return q}
+function rows(mp,rp,mult,buffer){const out=[];let cat=null;
+for(const it of ITEMS){if(Array.isArray(it)){cat={n:it[0],items:[]};out.push(cat);continue}
+const per=qty(it,mp,rp);cat.items.push({it,per,tot:per*mult*(1+(cat.n==="Staff time and beds"?0:buffer))})}return out}
+
+// ---- One birth
+let mode="vag";const sel=new Set();
+function build1(){
+$("modes").innerHTML=MODES.map(m=>`<label class="opt ${mode===m.k?"on":""}"><input type="radio" name="m" value="${m.k}" ${mode===m.k?"checked":""}><div>${m.n}<small>${m.d}</small></div></label>`).join("");
+$("risks1").innerHTML=RISKS.map(r=>`<label class="opt ${sel.has(r.k)?"on":""}"><input type="checkbox" value="${r.k}" ${sel.has(r.k)?"checked":""}><div>${r.n}<small>${r.d}</small></div></label>`).join("");
+document.querySelectorAll("#modes input").forEach(i=>i.onchange=()=>{mode=i.value;build1()});
+document.querySelectorAll("#risks1 input").forEach(i=>i.onchange=()=>{i.checked?sel.add(i.value):sel.delete(i.value);build1()});
+const rp={};sel.forEach(k=>rp[k]=1);
+const data=rows({[mode]:1},rp,1,0);
+const al=RISKS.filter(r=>sel.has(r.k));
+$("alerts1").innerHTML=al.length?al.map(r=>`<li><b>${r.n}.</b> ${r.alert}</li>`).join(""):`<li class="ok">No risk factors selected. Standard care and routine active management of the third stage apply.</li>`;
+const get=n=>{for(const c of data)for(const x of c.items)if(x.it.n===n)return x.per;return 0};
+$("kpis1").innerHTML=[["Midwife hours",fmt(get("Midwife time"))],["Maternity bed-days",fmt(get("Maternity bed"))],["Blood units on hold",fmt(get("Blood"))],["Doctor hours",fmt(get("Obstetrician time")+get("Anaesthetist time"))]].map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join("");
+$("tbl1").innerHTML=`<tr><th>Item</th><th>Unit</th><th class="n">Needed</th></tr>`+data.map(c=>{const r=c.items.filter(x=>x.per>0);return r.length?`<tr class="cat"><td colspan="3">${c.n}</td></tr>`+r.map(x=>`<tr><td>${x.it.n}</td><td>${x.it.u}</td><td class="n">${fmt(x.per)}</td></tr>`).join(""):""}).join("");
+}
+
+// ---- Facility
+const mix={cs:15,assist:3};const prev={};RISKS.forEach(r=>prev[r.k]=r.p);
+function buildSliders(){
+const s=(id,l,v,max)=>`<label class="f">${l}<span id="${id}v">${v}%</span></label><input type="range" id="${id}" min="0" max="${max}" value="${v}">`;
+$("sliders").innerHTML=`<label class="f" style="margin-top:18px">Delivery mix</label>`+s("cs","Caesarean sections",mix.cs,100)+s("assist","Assisted vaginal births",mix.assist,100)+
+`<label class="f" style="margin-top:18px">Share of births with each risk</label>`+RISKS.map(r=>s("r_"+r.k,r.n,prev[r.k],100)).join("")+
+s("buf","Safety buffer on stock",15,50).replace('class="f"','class="f" style="margin-top:18px"');
+["cs","assist","buf"].concat(RISKS.map(r=>"r_"+r.k)).forEach(id=>$(id).oninput=()=>{if(id==="cs"||id==="assist")$(id).value=Math.min(+$(id).value,100-+$(id==="cs"?"assist":"cs").value);$(id+"v").textContent=$(id).value+"%";calc();equipmentCalc()});
+}
+function calc(){
+const N=Math.max(1,+$("births").value||0)*Math.max(1,+$("months").value||0);
+const cs=+$("cs").value/100,as=+$("assist").value/100,buf=+$("buf").value/100;
+const mp={cs:cs,assist:as,vag:Math.max(0,1-cs-as)};
+const rp={};RISKS.forEach(r=>rp[r.k]=+$("r_"+r.k).value/100);
+const data=rows(mp,rp,N,buf);
+const get=n=>{for(const c of data)for(const x of c.items)if(x.it.n===n)return x};
+const fte=get("Midwife time").tot/(FTE_H*Math.max(1,+$("months").value||1));
+$("kpis2").innerHTML=[["Births in period",N.toLocaleString()],["Caesareans",Math.round(N*cs).toLocaleString()],["Haemorrhage cases",Math.round(N*rp.pph).toLocaleString()],["Pre-eclampsia cases",Math.round(N*rp.pe).toLocaleString()],["Maternity bed-days",Math.round(get("Maternity bed").tot).toLocaleString()],["Midwives needed (FTE)",fte.toFixed(1)]].map(k=>`<div class="kpi"><b>${k[1]}</b><span>${k[0]}</span></div>`).join("");
+$("tbl2").innerHTML=`<tr><th>Item</th><th>Unit</th><th class="n">Per birth</th><th class="n">Total to plan for</th></tr>`+data.map(c=>{const mx=Math.max(...c.items.map(x=>x.tot),1);return `<tr class="cat"><td colspan="4">${c.n}</td></tr>`+c.items.filter(x=>x.tot>0).map(x=>`<tr><td>${x.it.n}<div class="bar"><i style="width:${Math.max(2,x.tot/mx*100)}%"></i></div></td><td>${x.it.u}</td><td class="n">${fmt(x.per)}</td><td class="n"><b>${fmt(x.tot)}</b></td></tr>`).join("")}).join("");
+}
+$("births").oninput=()=>{calc();equipmentCalc()};$("months").oninput=()=>{calc();equipmentCalc()};
+buildSliders();build1();calc();
+// tabs
+function tab(n){[1,2,3,4].forEach(i=>{$("p"+i).classList.toggle("hide",n!==i);$("t"+i).setAttribute("aria-selected",n===i)})}
+[1,2,3,4].forEach(i=>$("t"+i).onclick=()=>tab(i));
+
+// ---- Country questionnaire. Field: [id, label, type(t text, n number, p percent, s select), unit or options, feeds forecast]
+const A={};
+const QS=[
+{t:"1. Country and respondent",f:[["country","Country","t"],["contact","Respondent name and role","t"],["year","Reporting year","n","e.g. 2025"]]},
+{t:"2. Population and births",f:[["scope","Scope of annual births","s",["Single facility","District or catchment","Country"]],["births","Births per year (country or catchment)","n","births",1],["urban","Births in urban areas (%)","p"],["teen","Births to women under 18 (%)","p"],["seasonal","Seasonal peak in births (months)","t"],["growth","Expected births trend, next 3 to 5 years","s",["Rising","Stable","Falling"]]]},
+{t:"3. Where women give birth",f:[["skilled","Births with a skilled attendant (%)","p"],["facility","Births in a health facility (%)","p"],["anc4","Women with 4 or more antenatal visits (%)","p"],["bemonc","Facilities with basic emergency obstetric care","n","count"],["cemonc","Facilities with comprehensive emergency obstetric care","n","count"],["refer","Women referred up during labour (%)","p"]]},
+{t:"4. Delivery mix and complication rates",f:[["cs","Caesarean rate (% of births)","p","",1],["assist","Assisted vaginal births (%)","p","",1],["pph","Postpartum haemorrhage (%)","p","",1],["pe","Pre-eclampsia or eclampsia (%)","p","",1],["anemia","Severe anaemia at delivery (%)","p","",1],["hiv","HIV prevalence in pregnant women (%)","p","",1],["preterm","Preterm or low birth weight (%)","p","",1],["sepsis","Maternal infection or prolonged rupture (%)","p","",1],["malaria","Births in malaria-risk areas (%)","p"],["twins","Multiple pregnancies (%)","p"],["mmr","Maternal mortality ratio (per 100,000)","n"]]},
+{t:"5. Clinical protocols",f:[["uterotonic","First-line uterotonic","s",["Oxytocin","Misoprostol","Carbetocin"]],["txa","Tranexamic acid in haemorrhage protocol","s",["Yes","No"]],["mgso4","Magnesium sulfate regimen","s",["Full regimen","Loading dose only"]],["antihyp","First-line antihypertensive","s",["Nifedipine","Labetalol","Hydralazine","Methyldopa"]],["steroids","Antenatal steroids in policy","s",["Yes","No"]],["guideline","National guideline name and year","t"],["los_vag","Stay after normal birth (days)","n","days"],["los_cs","Stay after caesarean (days)","n","days"]]},
+{t:"6. Supply chain",f:[["tiers","Supply chain tiers (e.g. central, region, district, facility)","t"],["procurer","Main procurer","s",["Government","Donor or UN agency","Mixed","Private"]],["lead_proc","Procurement lead time (weeks)","n","weeks"],["lead_dist","Store to facility lead time (days)","n","days"],["freq","Delivery frequency","s",["Monthly","Quarterly","Twice a year","Ad hoc"]],["safety","Safety stock held (months of use)","n","months",1],["intrace","Facilities with all tracer items in stock (%)","p"],["stockout","Average stockout length (days)","n","days"],["expiry","Stock lost to expiry or damage (%)","p"],["hard","Hard-to-reach facilities (%)","p"]]},
+{t:"7. Funding",f:[["budget","Annual commodity budget (currency and amount)","t"],["funded","Share of need funded (%)","p"],["donor","Share funded by donors (%)","p"],["fees","Fees for delivery or caesarean","s",["Free","Partly charged","Charged"]]]},
+{t:"8. Workforce and beds",f:[["midwives","Midwives (number)","n","count"],["obs","Obstetricians and caesarean-trained doctors","n","count"],["anaes","Anaesthetists","n","count"],["fte","Working hours per FTE per month","n","e.g. 160",1],["beds","Maternity beds (number)","n","count"],["occ","Bed occupancy (%)","p"]]},
+{t:"9. Equipment governance and readiness",f:[["eq_register","Asset register coverage and last verification date","t"],["eq_level","Service packages and equipment standards by facility level","t"],["eq_status","Definition and verification of functional status","t"],["eq_age","Asset age, expected life and replacement policy","t"],["eq_maintenance","Preventive maintenance schedule and repair arrangements","t"],["eq_engineers","Biomedical technicians and service coverage","t"],["eq_utilization","Utilization, peak demand and downtime data sources","t"],["eq_infra","Electricity, water, oxygen, sterilization and installation readiness","t"],["eq_accessories","Required accessories, consumables and compatible devices","t"],["eq_training","Operator training and competency gaps","t"],["eq_procurement","Tender specifications, supplier support and lead times","t"],["eq_orders","Confirmed orders, delivery dates and funding commitments","t"],["eq_costs","Equipment, installation, training and maintenance budget","t"],["eq_disposal","Decommissioning and safe disposal policy","t"],["eq_sources","Evidence sources, missing data and validation owner","t"]]},
+{t:"10. Data systems",f:[["system","Main data system","s",["DHIS2","OpenLMIS or eLMIS","Spreadsheets","Paper"]],["rep","Facility reporting rate (%)","p"],["export","Data export available","s",["CSV or Excel","API","Neither"]],["offline","Tool must work offline","s",["Yes","No"]],["priority","Main decision the tool should support","t"]]}
+];
+function qprog(){const all=QS.flatMap(s=>s.f),n=all.filter(f=>A[f[0]]!==undefined&&A[f[0]]!=="").length;$("qbar").style.width=n/all.length*100+"%";$("qtxt").textContent=n+" of "+all.length+" questions answered"}
+$("qform").innerHTML=QS.map(s=>`<div class="panel" style="margin-bottom:16px"><h2>${s.t}</h2><div class="qgrid">`+s.f.map(f=>{const [id,l,ty,x,ap]=f;let inp;
+if(ty==="s")inp=`<select id="q_${id}"><option value="">Select</option>${x.map(o=>`<option>${o}</option>`).join("")}</select>`;
+else if(ty==="t")inp=`<input type="text" id="q_${id}">`;
+else inp=`<input type="number" id="q_${id}" min="0" step="any" ${ty==="p"?'max="100" placeholder="%"':`placeholder="${x||""}"`}>`;
+return `<div><label class="f">${l}${ap?' <em class="feeds">feeds forecast</em>':""}</label>${inp}</div>`}).join("")+`</div></div>`).join("");
+document.querySelectorAll("#qform input,#qform select").forEach(el=>{el.oninput=el.onchange=()=>{A[el.id.slice(2)]=el.value;qprog()}});
+qprog();
+$("qdemo").onclick=()=>{const d={scope:"Single facility",births:1440,cs:15,assist:3,safety:0.5,fte:160};RISKS.forEach(r=>d[r.k]=r.p);for(const k in d){$("q_"+k).value=d[k];A[k]=d[k]}qprog();$("qmsg").textContent="Starter values filled. Replace them with your country data."};
+$("qapply").onclick=()=>{let n=0;
+if(A.births!==undefined&&A.births!==""&&A.scope!=="Single facility"){$("qmsg").textContent="To apply annual births, select Single facility scope and enter that facility's annual births. Country and catchment totals require separate facility allocations.";return}
+if(QS.flatMap(s=>s.f).some(f=>['n','p'].includes(f[2])&&A[f[0]]!==undefined&&A[f[0]]!==""&&(!Number.isFinite(+A[f[0]])||+A[f[0]]<0||f[2]==='p'&&+A[f[0]]>100))){$("qmsg").textContent="Correct negative or invalid numbers and percentages outside 0–100 before applying.";return}
+if((A.cs!==undefined&&A.cs!==""?+A.cs:+$("cs").value)+(A.assist!==undefined&&A.assist!==""?+A.assist:+$("assist").value)>100){$("qmsg").textContent="Caesarean and assisted birth shares together must not exceed 100%.";return}
+
+const set=(id,v)=>{const el=$(id);if(v===undefined||v===""||isNaN(+v))return;el.value=Math.min(+el.max,Math.max(0,Math.round(+v)));$(id+"v").textContent=el.value+"%";n++};
+if(+A.births>0){$("births").value=A.births/12;n++}
+set("cs",A.cs);set("assist",A.assist);RISKS.forEach(r=>set("r_"+r.k,A[r.k]));
+if(A.safety!==undefined&&A.safety!==""&&+A.safety>=0)set("buf",Math.min(50,A.safety/Math.max(1,+$("months").value)*100));
+if(+A.fte>0){FTE_H=+A.fte;n++}
+if(!n){$("qmsg").textContent="Nothing to apply yet. Fill in births, delivery mix or risk rates first.";return}
+$("calib").textContent=(A.country?"Calibrated for "+A.country:"Calibrated from questionnaire")+" · "+n+" inputs applied";
+calc();equipmentCalc();tab(2)};
+$("qcopy").onclick=()=>{const txt=QS.map(s=>s.t+"\n"+s.f.filter(f=>A[f[0]]!==undefined&&A[f[0]]!=="").map(f=>"- "+f[1]+": "+A[f[0]]).join("\n")).join("\n\n");const o=$("qout");o.value=txt;o.classList.remove("hide");
+try{navigator.clipboard.writeText(txt).then(()=>$("qmsg").textContent="Copied to clipboard.",()=>$("qmsg").textContent="Select the text below to copy.")}catch(e){$("qmsg").textContent="Select the text below to copy."}};
+
+// Equipment defaults are illustrative planning assumptions, not clinical norms.
+const EQ=[
+ ['Delivery bed','births',30,1],['Examination light','births',60,1],
+ ['Blood pressure monitor','births',120,1],['Fetal Doppler','births',120,1],
+ ['Vacuum delivery set','assist',20,0],['Operating table','cs',40,0],
+ ['Anaesthesia workstation','cs',40,0],['Patient monitor','cs',40,0],
+ ['Infusion pump','complications',30,1],['Oxygen concentrator','complications',20,1],
+ ['Suction machine','births',60,1],['Steam sterilizer','births',120,1],
+ ['Newborn resuscitation bag and mask set','births',60,1]
+].map(([name,driver,capacity,minimum])=>({name,driver,capacity,minimum,functional:'',nonfunctional:'',due:'',repairs:'',incoming:'',age:'',life:'',lead:'',cost:''}));
+const EQFIELDS=[['capacity','Events / unit / month'],['minimum','Minimum units'],['functional','Functional units'],['nonfunctional','Nonfunctional units'],['due','Functional units retiring in period'],['repairs','Confirmed repairs in period'],['incoming','Confirmed arrivals in period'],['age','Oldest functional unit age (years)'],['life','Expected life (years)'],['lead','Lead time (months)'],['cost','Landed unit cost']];
+function equipmentBuild(){
+ $('eqtable').innerHTML='<thead><tr><th>Equipment / activity driver</th>'+EQFIELDS.map(f=>'<th>'+f[1]+'</th>').join('')+'<th>Required units</th><th>Procurement gap</th><th>Estimated cost</th><th>Review</th></tr></thead><tbody>'+EQ.map((r,i)=>'<tr><td>'+r.name+'<small>'+r.driver+'</small></td>'+EQFIELDS.map(([k,label])=>'<td><input aria-label="'+r.name+': '+label+'" type="number" min="'+(k==='capacity'?1:0)+'" step="'+(['capacity','life','lead','cost'].includes(k)?'any':'1')+'" data-row="'+i+'" data-key="'+k+'" value="'+r[k]+'"></td>').join('')+'<td id="eqreq'+i+'"></td><td id="eqgap'+i+'"></td><td id="eqcost'+i+'"></td><td id="eqreview'+i+'"></td></tr>').join('')+'</tbody>';
+ document.querySelectorAll('#eqtable input').forEach(el=>el.oninput=()=>{EQ[+el.dataset.row][el.dataset.key]=el.value;equipmentCalc()});
+}
+function equipmentResult(r,births,months,cs,assist,complications,use,peak){
+ const activity={births,cs:births*cs,assist:births*assist,complications:births*complications}[r.driver];
+ const valid=(k,min=0,whole=false)=>r[k]!==''&&Number.isFinite(+r[k])&&+r[k]>=min&&(!whole||Number.isInteger(+r[k]));
+ if(!valid('capacity',Number.MIN_VALUE)||!valid('minimum',0,true)||!(use>0&&use<=1)||!(peak>=0&&peak<=2)||!Number.isFinite(activity))return {required:null,gap:null,cost:null,review:'Check capacity and planning inputs'};
+ const required=Math.max(+r.minimum,Math.ceil(activity*(1+peak)/(+r.capacity*use)));
+ if(!['functional','nonfunctional','due','repairs','incoming'].every(k=>valid(k,0,true)))return {required,gap:null,cost:null,review:'Complete inventory and supply; enter 0 if none'};
+ if(+r.due>+r.functional||+r.repairs>+r.nonfunctional)return {required,gap:null,cost:null,review:'Retiring units exceed functional, or repairs exceed nonfunctional'};
+ const gap=Math.max(0,required-(+r.functional-+r.due + +r.repairs + +r.incoming));
+ const review=[];
+ if(r.lead===''||!valid('lead'))review.push('Verify lead time');else if(+r.lead>months&&gap)review.push('Lead time exceeds horizon');
+ if(r.life===''||!valid('life',Number.MIN_VALUE))review.push('Verify life and retirement schedule');
+ if(r.age!==''&&valid('age')&&valid('life',Number.MIN_VALUE)&&+r.age+months/12>=+r.life&&+r.functional>0)review.push('Age threshold reached within horizon; review retiring count');
+ return {required,gap,cost:gap===0?0:valid('cost')?gap*+r.cost:null,review:review.join('; ')||'Validate timing and readiness'};
+}
+let eqResults=[];
+function equipmentCalc(){
+ const births=+$('births').value,months=+$('months').value,cs=+$('cs').value/100,assist=+$('assist').value/100;
+ // Sum is a workload proxy; overlapping complications can require multiple device uses.
+ const complications=['pe','pph','sepsis'].reduce((n,k)=>n + +$('r_'+k).value/100,0);
+ const use=+$('equse').value/100,peak=+$('eqpeak').value/100;
+ eqResults=EQ.map(r=>equipmentResult(r,births,months,cs,assist,complications,use,peak));
+ const invalid=!(births>0&&Number.isFinite(births)&&months>=1&&months<=24&&Number.isInteger(months)&&cs>=0&&assist>=0&&cs+assist<=1&&$('equse').value!==''&&$('eqpeak').value!=='');
+ if(invalid)eqResults=EQ.map(()=>({required:null,gap:null,cost:null,review:'Enter positive births and a whole planning period of 1–24 months'}));
+ eqResults.forEach((r,i)=>{ $('eqreq'+i).textContent=r.required??'Unknown';$('eqgap'+i).textContent=r.gap??'Unknown';$('eqcost'+i).textContent=r.cost===null?'Uncosted':r.cost.toLocaleString(undefined,{maximumFractionDigits:2});$('eqreview'+i).textContent=r.review; });
+ const known=eqResults.filter(r=>r.gap!==null),uncosted=known.filter(r=>r.gap>0&&r.cost===null).length;
+ $('eqsummary').innerHTML=[['Planning period',months+' months'],['Inventory rows complete',known.length+' / '+EQ.length],['Gap units (known rows)',known.reduce((n,r)=>n+r.gap,0)],['Costed subtotal (currency above)',known.reduce((n,r)=>n+(r.cost??0),0).toLocaleString()],['Gap rows without cost',uncosted]].map(([l,v])=>'<div class="kpi"><b>'+v+'</b><span>'+l+'</span></div>').join('');
+}
+function download(name,data,type){const url=URL.createObjectURL(new Blob([data],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+const csvCell=v=>'"'+String(v??'').replace(/^[=+@\-\t\r]/,"'$&").replaceAll('"','""')+'"';
+equipmentBuild();equipmentCalc();
+['equse','eqpeak'].forEach(id=>$(id).oninput=equipmentCalc);
+$('eqexport').onclick=()=>{equipmentCalc();const headers=['Facility','Assessment date','Currency','Monthly births','Months','Usable capacity %','Peak %','Equipment','Driver',...EQFIELDS.map(f=>f[1]),'Required','Gap','Cost','Review'];const rows=EQ.map((r,i)=>[$('eqfacility').value,$('eqdate').value,$('eqcurrency').value,$('births').value,$('months').value,$('equse').value,$('eqpeak').value,r.name,r.driver,...EQFIELDS.map(([k])=>r[k]),eqResults[i].required??'Unknown',eqResults[i].gap??'Unknown',eqResults[i].cost??'Uncosted',eqResults[i].review]);download('maternal-equipment-forecast.csv','\ufeff'+[headers,...rows].map(r=>r.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8')};
+const PLANIDS=['births','months','cs','assist','buf',...RISKS.map(r=>'r_'+r.k),'eqfacility','eqdate','eqcurrency','equse','eqpeak'];
+$('saveplan').onclick=()=>{download('maternal-health-plan.json',JSON.stringify({version:1,inputs:Object.fromEntries(PLANIDS.map(id=>[id,$(id).value])),fte:FTE_H,questionnaire:A,equipment:EQ},null,2),'application/json');$('eqmsg').textContent='Planning data exported. Keep the file securely if it includes respondent details.'};
+$('loadplan').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(file.size>2000000)throw Error('File too large');const data=JSON.parse(await file.text());if(data.version!==1||!Array.isArray(data.equipment)||data.equipment.length!==EQ.length||!data.inputs||typeof data.questionnaire!=='object'||!data.questionnaire)throw Error('Invalid planning file');
+ const scalar=v=>typeof v==='string'||typeof v==='number'&&Number.isFinite(v);
+ for(const id of PLANIDS){const v=data.inputs[id];if(!scalar(v))throw Error('Missing or invalid input: '+id);const el=$(id);if(el.type==='number'||el.type==='range'){if(v===''||!Number.isFinite(+v)||(el.min!==''&&+v<+el.min)||(el.max!==''&&+v>+el.max))throw Error('Out-of-range input: '+id)}}
+ if(+data.inputs.cs + +data.inputs.assist>100||!Number.isInteger(+data.inputs.months))throw Error('Invalid delivery mix or planning period');
+ if(!Number.isFinite(+data.fte)||+data.fte<=0)throw Error('Invalid FTE hours');
+ data.equipment.forEach((r,i)=>{if(r.name!==EQ[i].name||!EQFIELDS.every(([k])=>scalar(r[k])&&(r[k]===''||Number.isFinite(+r[k])&&+r[k]>=0)))throw Error('Invalid equipment row')});
+ for(const f of QS.flatMap(s=>s.f)){const v=data.questionnaire[f[0]];if(v!==undefined&&(!scalar(v)||(f[2]==='s'&&v!==''&&!f[3].includes(v))||(['n','p'].includes(f[2])&&v!==''&&(!Number.isFinite(+v)||+v<0||f[2]==='p'&&+v>100))))throw Error('Invalid questionnaire answer')}
+ PLANIDS.forEach(id=>{$(id).value=data.inputs[id];if($(id+'v'))$(id+'v').textContent=$(id).value+'%'});FTE_H=+data.fte;
+ QS.flatMap(s=>s.f).forEach(f=>{const k=f[0];A[k]=data.questionnaire[k]??'';$('q_'+k).value=A[k]});
+ data.equipment.forEach((r,i)=>EQFIELDS.forEach(([k])=>EQ[i][k]=r[k]));qprog();equipmentBuild();calc();equipmentCalc();$('calib').textContent='Restored planning data';$('eqmsg').textContent='Planning data loaded. Review inventory dates and assumptions.';
+ }catch(err){$('eqmsg').textContent='Could not load planning file: '+err.message}finally{e.target.value=''}};
+
+</script>
+</body>
+</html>

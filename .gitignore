@@ -1,0 +1,12 @@
+node_modules/
+tmp/
+__pycache__/
+*.pyc
+~$*
+.DS_Store
+Thumbs.db
+outputs/*
+!outputs/unfpa-instruments/
+outputs/unfpa-instruments/*
+!outputs/unfpa-instruments/Stakeholder_Assessment_Questionnaire.docx
+!outputs/unfpa-instruments/Maternal_Equipment_Data_Collection.xlsx
