@@ -4,6 +4,10 @@ An offline planning prototype for maternal health equipment, devices and birth-r
 
 [Open the application in your browser](https://pharmzanga.github.io/Maternal-Health-Forecasting-Tool/).
 
+The opening **Country and services** tab now follows the country assessment workbook. It includes ten countries and their source region codes, 17 services across five reporting facility levels, 13 annual service indicators, 35 equipment and consumable mappings, and partner validation roles. Independent service flags prevent “not provided” from contradicting another affirmative answer. Save and restore country assessments with JSON, or export CSV for review. These exports are separate from equipment planning files and do not automatically synchronise with Excel.
+
+Country focal-point names are omitted from the public application and reference data. Somalia's source region code `AS` is preserved with a confirmation note. Service mappings are consultation references and do not automatically create procurement quantities. The revised country workbook with the original focal-point list is retained locally and excluded from this repository.
+
 Download or clone this repository, then open [maternal-needs-forecast.html](maternal-needs-forecast.html) in a modern browser. It is a self-contained HTML application and needs no installation or server. `maternal-needs-forecast.original.html` preserves the initial application used to build this version.
 
 ## Assessment and collection instruments

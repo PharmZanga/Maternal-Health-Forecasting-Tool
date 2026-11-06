@@ -1,0 +1,367 @@
+{
+  "countries": [
+    {
+      "country": "Afghanistan",
+      "region": "AP"
+    },
+    {
+      "country": "Cote D'Ivoire",
+      "region": "WCA"
+    },
+    {
+      "country": "Ethiopia",
+      "region": "ESA"
+    },
+    {
+      "country": "Somalia",
+      "region": "AS"
+    },
+    {
+      "country": "Malawi",
+      "region": "ESA"
+    },
+    {
+      "country": "Pakistan",
+      "region": "AP"
+    },
+    {
+      "country": "Zambia",
+      "region": "ESA"
+    },
+    {
+      "country": "Senegal",
+      "region": "WCA"
+    },
+    {
+      "country": "Venezuela",
+      "region": "LAC"
+    },
+    {
+      "country": "Tajikistan",
+      "region": "EECA"
+    }
+  ],
+  "levels": [
+    "Primary / Health Post",
+    "Health Centre",
+    "District / First Referral",
+    "Regional / Provincial",
+    "National / Teaching"
+  ],
+  "services": [
+    "Routine ANC",
+    "ANC hypertension screening",
+    "Fetal heart rate assessment",
+    "Obstetric ultrasound",
+    "Normal vaginal delivery",
+    "Labour monitoring",
+    "Active management of third stage of labour",
+    "PPH detection and stabilization",
+    "Uterine balloon tamponade",
+    "Manual removal of placenta",
+    "Assisted vaginal delivery",
+    "Neonatal resuscitation",
+    "Kangaroo mother care",
+    "Newborn oxygen therapy",
+    "Caesarean section",
+    "Blood transfusion",
+    "Advanced neonatal care"
+  ],
+  "indicators": [
+    "ANC first visits",
+    "Total ANC visits",
+    "Expected pregnancies",
+    "Total deliveries",
+    "Normal vaginal deliveries",
+    "Caesarean sections",
+    "PPH cases",
+    "Eclampsia / severe preeclampsia cases",
+    "Assisted vaginal deliveries",
+    "Newborns requiring resuscitation",
+    "Low birth weight newborns",
+    "Newborns requiring oxygen",
+    "Blood transfusions related to obstetric complications"
+  ],
+  "profile": [
+    "Which administrative levels are used in the health system?",
+    "What are the officially recognized levels of health facilities?",
+    "How many public health facilities are currently operational at each level?",
+    "Is there an approved national essential medical equipment list?",
+    "Is there a national maternal and newborn health service delivery package?",
+    "Which national clinical guidelines govern maternal and newborn health services?",
+    "Are there national plans to expand maternal health services or establish new facilities within the next 5 years?"
+  ],
+  "mapping": [
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "ANC blood pressure screening",
+      "equipment": "Digital or aneroid BP monitor",
+      "consumables": "Appropriate BP cuffs, batteries, calibration components",
+      "linkage": "Devices per ANC room; cuffs per device; replacement cycle"
+    },
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "Maternal weight and height",
+      "equipment": "Adult weighing scale, height rod",
+      "consumables": "Batteries, calibration weights where applicable",
+      "linkage": "Devices per ANC room; replacement cycle"
+    },
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "Fetal heart rate assessment",
+      "equipment": "Handheld fetal Doppler",
+      "consumables": "Ultrasound gel, batteries, probes, probe covers where required",
+      "linkage": "Devices per ANC room; gel per examination"
+    },
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "Urine screening",
+      "equipment": "Urine analyzer or manual testing supplies",
+      "consumables": "Protein/glucose strips, urine containers, control solutions",
+      "linkage": "Tests per ANC client; strips per test"
+    },
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "Obstetric ultrasound",
+      "equipment": "Portable or console ultrasound",
+      "consumables": "Ultrasound gel, probe covers, printer paper, approved disinfectants",
+      "linkage": "Scans per machine; gel per scan; machine replacement"
+    },
+    {
+      "domain": "A. Antenatal care, screening and diagnostics",
+      "service": "Laboratory screening",
+      "equipment": "Hemoglobin testing equipment, where included",
+      "consumables": "Test strips, cuvettes, reagents, lancets, controls",
+      "linkage": "Tests per ANC client; tests per device"
+    },
+    {
+      "domain": "B. Labour monitoring and intrapartum care",
+      "service": "Labour monitoring",
+      "equipment": "Cardiotocography (CTG) monitor",
+      "consumables": "Recording paper, ultrasound gel, transducer belts, electrodes where applicable",
+      "linkage": "Devices per labour bed; rolls per monitored delivery"
+    },
+    {
+      "domain": "B. Labour monitoring and intrapartum care",
+      "service": "Intermittent fetal monitoring",
+      "equipment": "Pinard stethoscope or handheld Doppler",
+      "consumables": "Batteries, gel where applicable",
+      "linkage": "Devices per midwife or delivery room"
+    },
+    {
+      "domain": "B. Labour monitoring and intrapartum care",
+      "service": "Maternal monitoring",
+      "equipment": "Multiparameter monitor",
+      "consumables": "ECG electrodes, SpO₂ sensors, cuffs, compatible cables",
+      "linkage": "Devices per bed; consumables per monitored patient"
+    },
+    {
+      "domain": "B. Labour monitoring and intrapartum care",
+      "service": "Routine delivery",
+      "equipment": "Delivery bed, examination light",
+      "consumables": "Reusable and disposable delivery packs, sterile gloves, drapes",
+      "linkage": "Beds per delivery room; packs per delivery"
+    },
+    {
+      "domain": "B. Labour monitoring and intrapartum care",
+      "service": "Infection prevention",
+      "equipment": "Instrument sets, sterilizer",
+      "consumables": "Detergents, sterilization packaging, indicators",
+      "linkage": "Sets per delivery; sterilization cycles"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "PPH detection",
+      "equipment": "Calibrated blood collection drape",
+      "consumables": "Disposable drapes or approved reusable alternatives",
+      "linkage": "Eligible deliveries × adoption rate"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "PPH stabilization",
+      "equipment": "Non-pneumatic anti-shock garment (NASG)",
+      "consumables": "Reusable garment components, cleaning supplies",
+      "linkage": "Devices per facility; reuse cycles; replacement"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "Uterine tamponade",
+      "equipment": "UBT system",
+      "consumables": "Balloon catheter, approved tubing, syringes, sterile saline",
+      "linkage": "PPH cases × eligible utilization rate"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "Uterotonic administration",
+      "equipment": "IV infusion equipment",
+      "consumables": "Oxytocin, misoprostol, IV sets, cannulas",
+      "linkage": "Deliveries × prophylaxis protocol"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "PPH treatment",
+      "equipment": "Tranexamic acid administration",
+      "consumables": "Tranexamic acid, syringes, IV supplies",
+      "linkage": "PPH treatment cases × protocol"
+    },
+    {
+      "domain": "C. Postpartum haemorrhage prevention, detection and management",
+      "service": "Emergency resuscitation",
+      "equipment": "Suction, oxygen and monitoring devices",
+      "consumables": "Oxygen, suction tubing, cannulas, compatible accessories",
+      "linkage": "PPH cases requiring stabilization"
+    },
+    {
+      "domain": "D. Assisted delivery and obstetric procedures",
+      "service": "Assisted vaginal delivery",
+      "equipment": "Vacuum extractor",
+      "consumables": "Compatible cups, tubing, approved replacement components",
+      "linkage": "Eligible assisted deliveries × device utilization"
+    },
+    {
+      "domain": "D. Assisted delivery and obstetric procedures",
+      "service": "Assisted vaginal delivery",
+      "equipment": "Obstetric forceps",
+      "consumables": "Sterilization supplies, procedure packs",
+      "linkage": "Procedures per facility"
+    },
+    {
+      "domain": "D. Assisted delivery and obstetric procedures",
+      "service": "Manual vacuum aspiration",
+      "equipment": "MVA kit",
+      "consumables": "Cannulas, aspiration syringes, sterile gloves, antiseptics",
+      "linkage": "Eligible procedures × cannulas per procedure"
+    },
+    {
+      "domain": "D. Assisted delivery and obstetric procedures",
+      "service": "Manual removal of placenta",
+      "equipment": "Obstetric instrument set",
+      "consumables": "Sterile gloves, antiseptics, drapes, analgesia/anesthesia supplies",
+      "linkage": "Procedures × procedure pack"
+    },
+    {
+      "domain": "D. Assisted delivery and obstetric procedures",
+      "service": "Evacuation of retained products",
+      "equipment": "MVA or approved evacuation equipment",
+      "consumables": "Cannulas, surgical supplies, anesthesia commodities",
+      "linkage": "Procedures × consumable requirements"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Neonatal resuscitation",
+      "equipment": "Self-inflating bag and masks",
+      "consumables": "Appropriate neonatal masks, replacement valves, reusable or disposable components",
+      "linkage": "Devices per delivery room; resuscitation cases"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Airway management",
+      "equipment": "Suction device",
+      "consumables": "Suction catheters, mucus extractors, tubing",
+      "linkage": "Deliveries requiring suction × approved protocol"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Thermal care",
+      "equipment": "Radiant warmer / resuscitaire",
+      "consumables": "Temperature probes, compatible accessories",
+      "linkage": "Devices per delivery room or newborn unit"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Oxygen therapy",
+      "equipment": "Oxygen concentrator or cylinder system",
+      "consumables": "Oxygen, compatible tubing, nasal prongs, filters",
+      "linkage": "Newborns requiring oxygen × treatment duration"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Newborn monitoring",
+      "equipment": "Pulse oximeter",
+      "consumables": "Sensors, probes, batteries",
+      "linkage": "Devices per newborn unit; monitored newborns"
+    },
+    {
+      "domain": "E. Newborn resuscitation and immediate newborn care",
+      "service": "Kangaroo mother care",
+      "equipment": "KMC chair or bed, where required",
+      "consumables": "KMC wraps or locally approved reusable supports",
+      "linkage": "KMC spaces × required accessories"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Caesarean section",
+      "equipment": "Operating table and surgical lights",
+      "consumables": "Surgical drapes, instrument packs, compatible bulbs",
+      "linkage": "Operating theatres × service capacity"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Anesthesia",
+      "equipment": "Anesthesia workstation",
+      "consumables": "Anesthetic agents, spinal needles, breathing circuits, filters",
+      "linkage": "Caesarean sections × anesthesia protocol"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Surgical incision and closure",
+      "equipment": "Electrosurgical unit",
+      "consumables": "Electrosurgical tips, grounding pads",
+      "linkage": "Procedures × consumable requirements"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Caesarean section",
+      "equipment": "Obstetric surgical instrument set",
+      "consumables": "Sutures, scalpel blades, sterile gloves, lap sponges",
+      "linkage": "Procedures × surgical pack"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Blood transfusion",
+      "equipment": "Blood bank equipment and blood refrigerators",
+      "consumables": "Blood collection supplies, screening reagents, transfusion sets",
+      "linkage": "Transfusion cases × protocol"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Sterilization",
+      "equipment": "Autoclave / sterilizer",
+      "consumables": "Sterilization pouches, indicators, approved cleaning agents",
+      "linkage": "Instrument sets × sterilization cycles"
+    },
+    {
+      "domain": "F. Comprehensive emergency obstetric care and surgery",
+      "service": "Postoperative care",
+      "equipment": "Patient monitor",
+      "consumables": "ECG electrodes, SpO₂ sensors, compatible accessories",
+      "linkage": "Surgical beds × monitoring requirements"
+    }
+  ],
+  "roles": [
+    {
+      "role": "Facility & midwives",
+      "responsibility": "Assess facility level equipment need"
+    },
+    {
+      "role": "District Health Managers",
+      "responsibility": "Consolidate facility requirements"
+    },
+    {
+      "role": "Subnational Health",
+      "responsibility": "Review, validate and aggregate district requirements"
+    },
+    {
+      "role": "National Program",
+      "responsibility": "Develop National equipment plan and resource requirements"
+    },
+    {
+      "role": "Supply Chain",
+      "responsibility": "Translate needs into supply planning and procurement"
+    },
+    {
+      "role": "UNFPA and other partners",
+      "responsibility": "Support standardized methodology & technical oversight"
+    }
+  ]
+}

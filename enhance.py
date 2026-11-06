@@ -50,5 +50,12 @@ s=s.replace('if(+A.safety>0)set','if(A.safety!==undefined&&A.safety!==""&&+A.saf
 s=s.replace('$(id+"v").textContent=$(id).value+"%";calc();equipmentCalc()', 'if(id==="cs"||id==="assist")$(id).value=Math.min(+$(id).value,100-+$(id==="cs"?"assist":"cs").value);$(id+"v").textContent=$(id).value+"%";calc();equipmentCalc()')
 s=s.replace('10. Equipment governance and readiness','9. Equipment governance and readiness').replace('9. Data systems','10. Data systems')
 js=Path('equipment.js').read_text(encoding='utf-8')
-s=s.replace('</script>',js+'\n</script>')
+s=s.replace('</style>','details.panel summary{font-weight:700;cursor:pointer} .assessment-wide{min-width:1150px}.assessment-wide input,.assessment-wide select{min-width:110px} .assessment-wide th:first-child{min-width:200px} .assessment-wide td{vertical-align:top} #assessment-mapping td{vertical-align:top}\n</style>')
+s=s.replace('<button role="tab" id="t1"','<button role="tab" id="t5" aria-selected="false">Country and services</button>\n<button role="tab" id="t1"')
+s=s.replace('<section id="p3"',Path('country-services.html').read_text(encoding='utf-8')+'\n<section id="p3"')
+s=s.replace('[1,2,3,4].forEach','[1,2,3,4,5].forEach')
+s=s.replace('<h1>Birth needs forecaster</h1>','<h1>Maternal health needs and equipment planning</h1>')
+s=s.replace('See what one birth needs, then scale it to a facility or district. Quantities are editable planning assumptions, not clinical orders.','Assess country services, explore equipment and consumable links, and plan facility requirements. Quantities and service mappings are consultation assumptions for local validation.')
+reference='const REFERENCE='+Path('service-reference.json').read_text(encoding='utf-8')+';\n'
+s=s.replace('</script>',js+'\n'+reference+Path('country-services.js').read_text(encoding='utf-8')+'\ntab(5);\n</script>')
 p.write_text(s,encoding='utf-8')
