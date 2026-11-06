@@ -2,9 +2,19 @@
 
 An offline planning prototype for maternal health equipment, devices and birth-related resources. The instruments and product definitions are consultation drafts prepared in the context of a UNFPA consultancy. They are not approved UNFPA publications or validated national standards.
 
+## Clarified country questionnaire
+
+The opening **Country questionnaire** follows `UNFPA_Country_Questionnaire_Clarified_Equipment_Workload.xlsx`. It includes 30 country questions, 16 birth pathway questions, configurable national levels of care, service availability, mutually exclusive birth modes, overlapping complication records, and 53 illustrative items across equipment, medicines, surgical supplies and laboratory diagnostics. Only reference questions and product labels were extracted; no coordinator details or country responses were published. Additional choices in the workbook's Option Lists are retained for D01 and D03, whose inline grids stop at eight options.
+
+Equipment workload and capacity are separate inputs. Annual eligible workload is divided by one reusable device's capacity (daily throughput × operating days × usable capacity). Single-use products instead use units per patient per event × repeat frequency. A norm method supports staff, team, room, bed and facility norms. Clinical factors and capacity assumptions require country evidence; medicine doses and clinical use factors are not prefilled.
+
+Product records capture classification, multiple services and indications, birth pathway, care stage, stock, replacements, confirmed supply, dates, costs and validation sources. Gross requirements, available supply and net gaps remain distinct. Duplicate records for the same product variant and facility require consolidation. National pooled workloads cannot generate a facility procurement gap. Eligible workload is not rounded before equipment capacity division.
+
+Save and restore this module with **Save questionnaire JSON** and **Load questionnaire JSON**, or export inputs and calculated results as CSV. Incomplete drafts can be saved; invalid numeric inputs must be corrected first. The original workbook is unchanged. Earlier assessments remain under **Service mapping**, the previous broad questionnaire under **Clinical context**, and existing equipment JSON files under **Equipment forecast**. These formats are separate and do not import XLSX data automatically.
+
 [Open the application in your browser](https://pharmzanga.github.io/Maternal-Health-Forecasting-Tool/).
 
-The opening **Country and services** tab now follows the country assessment workbook. It includes ten countries and their source region codes, 17 services across five reporting facility levels, 13 annual service indicators, 35 equipment and consumable mappings, and partner validation roles. Independent service flags prevent “not provided” from contradicting another affirmative answer. Save and restore country assessments with JSON, or export CSV for review. These exports are separate from equipment planning files and do not automatically synchronise with Excel.
+The **Service mapping** tab follows the earlier country assessment workbook. It includes ten countries and their source region codes, 17 services across five reporting facility levels, 13 annual service indicators, 35 equipment and consumable mappings, and partner validation roles. Independent service flags prevent “not provided” from contradicting another affirmative answer. Save and restore country assessments with JSON, or export CSV for review. These exports are separate from equipment planning files and do not automatically synchronise with Excel.
 
 Country focal-point names are omitted from the public application and reference data. Somalia's source region code `AS` is preserved with a confirmation note. Service mappings are consultation references and do not automatically create procurement quantities. The revised country workbook with the original focal-point list is retained locally and excluded from this repository.
 

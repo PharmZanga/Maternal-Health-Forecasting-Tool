@@ -57,5 +57,12 @@ s=s.replace('[1,2,3,4].forEach','[1,2,3,4,5].forEach')
 s=s.replace('<h1>Birth needs forecaster</h1>','<h1>Maternal health needs and equipment planning</h1>')
 s=s.replace('See what one birth needs, then scale it to a facility or district. Quantities are editable planning assumptions, not clinical orders.','Assess country services, explore equipment and consumable links, and plan facility requirements. Quantities and service mappings are consultation assumptions for local validation.')
 reference='const REFERENCE='+Path('service-reference.json').read_text(encoding='utf-8')+';\n'
-s=s.replace('</script>',js+'\n'+reference+Path('country-services.js').read_text(encoding='utf-8')+'\ntab(5);\n</script>')
+s=s.replace('<title>Birth Needs Forecaster</title>','<title>Maternal Health Planning and Country Questionnaire</title>')
+s=s.replace('>Country and services</button>','>Service mapping</button>').replace('>Country questionnaire</button>','>Clinical context</button>')
+s=s.replace('<button role="tab" id="t5"','<button role="tab" id="t6" aria-selected="false">Country questionnaire</button>\n<button role="tab" id="t5"')
+s=s.replace('<section id="p5"',Path('clarified-questionnaire.html').read_text(encoding='utf-8')+'\n<section id="p5"')
+s=s.replace('[1,2,3,4,5].forEach','[1,2,3,4,5,6].forEach')
+s=s.replace('</style>','.cq-section{margin-bottom:16px}.cq-question{border:1px solid var(--line);border-radius:8px;margin:18px 0;padding:16px}.cq-question legend{font-weight:600;padding:0 6px}.cq-wide{min-width:1100px}.cq-wide input,.cq-wide select{min-width:110px}.cq-wide th:first-child{min-width:200px} .cq-wide label.f{font-size:.76rem;font-weight:400}\n</style>')
+clarified='const CLARIFIED='+Path('clarified-reference.json').read_text(encoding='utf-8')+';\n'
+s=s.replace('</script>',js+'\n'+reference+Path('country-services.js').read_text(encoding='utf-8')+'\n'+clarified+Path('clarified-questionnaire.js').read_text(encoding='utf-8')+'\ntab(6);\n</script>')
 p.write_text(s,encoding='utf-8')

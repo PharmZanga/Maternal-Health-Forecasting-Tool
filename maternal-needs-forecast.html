@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Birth Needs Forecaster</title>
+<title>Maternal Health Planning and Country Questionnaire</title>
 <style>
 :root{--bg:#f4f6f4;--surface:#fff;--ink:#14262b;--muted:#5a6d71;--line:#d5dedc;--teal:#1f6f78;--teal-soft:#dcecec;--risk:#b5395b;--risk-soft:#f7e1e8;--gold:#e0a526;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
@@ -65,6 +65,7 @@ input[type=text],select,textarea{width:100%;padding:8px;border:1px solid var(--l
 button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 @media print{.tabs,.actions{display:none}.scroll{overflow:visible}.equipment-table{min-width:0;font-size:8px}.equipment-table input{min-width:0;padding:0}.wrap{max-width:none}}
 details.panel summary{font-weight:700;cursor:pointer} .assessment-wide{min-width:1150px}.assessment-wide input,.assessment-wide select{min-width:110px} .assessment-wide th:first-child{min-width:200px} .assessment-wide td{vertical-align:top} #assessment-mapping td{vertical-align:top}
+.cq-section{margin-bottom:16px}.cq-question{border:1px solid var(--line);border-radius:8px;margin:18px 0;padding:16px}.cq-question legend{font-weight:600;padding:0 6px}.cq-wide{min-width:1100px}.cq-wide input,.cq-wide select{min-width:110px}.cq-wide th:first-child{min-width:200px} .cq-wide label.f{font-size:.76rem;font-weight:400}
 </style>
 </head>
 <body>
@@ -74,11 +75,12 @@ details.panel summary{font-weight:700;cursor:pointer} .assessment-wide{min-width
 <p>Assess country services, explore equipment and consumable links, and plan facility requirements. Quantities and service mappings are consultation assumptions for local validation.</p>
 </header>
 <div class="tabs" role="tablist">
-<button role="tab" id="t5" aria-selected="false">Country and services</button>
+<button role="tab" id="t6" aria-selected="false">Country questionnaire</button>
+<button role="tab" id="t5" aria-selected="false">Service mapping</button>
 <button role="tab" id="t1" aria-selected="true">One birth</button>
 <button role="tab" id="t2" aria-selected="false">Facility forecast</button>
 <button role="tab" id="t4" aria-selected="false">Equipment forecast</button>
-<button role="tab" id="t3" aria-selected="false">Country questionnaire</button>
+<button role="tab" id="t3" aria-selected="false">Clinical context</button>
 </div>
 
 <section id="p1" class="grid">
@@ -130,6 +132,29 @@ details.panel summary{font-weight:700;cursor:pointer} .assessment-wide{min-width
 <div class="actions"><button class="btn" id="eqexport">Export equipment CSV</button><button class="btn alt" id="saveplan">Save planning data</button><label class="btn alt">Load planning data<input id="loadplan" type="file" accept="application/json,.json" hidden></label></div>
 <p id="eqmsg" role="status" class="note">Inventory is blank until entered. Save planning data to retain your work; nothing is sent to a server.</p>
 </div></section>
+
+<section id="p6" class="hide">
+<div class="panel" style="margin-bottom:16px">
+<h2>Country questionnaire and product workload</h2>
+<p>Updated from the clarified country workbook. Start with the national levels of care, answer the country and birth pathway questions, then enter product-specific workload or norms. Illustrative product names are not approved national requirements.</p>
+<div class="actions"><button class="btn" id="cq-save">Save questionnaire JSON</button><label class="btn alt">Load questionnaire JSON<input id="cq-load" type="file" accept=".json,application/json" hidden></label><button class="btn alt" id="cq-export">Export questionnaire CSV</button><button class="btn alt" id="cq-clear">Start new questionnaire</button><button class="btn alt hide" id="cq-discard">Discard entries and start new</button></div>
+<p id="cq-status" role="status" class="note"></p><p id="cq-message" role="status" class="note">Answers stay in this browser until downloaded. Closing or refreshing loses unsaved work. This questionnaire has its own JSON format; earlier assessment and equipment files remain in their original tabs.</p>
+</div>
+<details class="panel cq-section" open><summary>1. Start and country profile</summary><div id="cq-profile" class="qgrid"></div></details>
+<details class="panel cq-section" open><summary>2. National levels of care</summary><p class="note">Health post, health centre and Level 1–4 are suggestions, not assumed national categories. Mark whether each exists and enter its national equivalent. Confirm aliases rather than counting the same national level twice.</p><div class="scroll"><table id="cq-levels" class="cq-wide"></table></div><button id="cq-add-level" class="btn alt">Add national category</button></details>
+<details class="panel cq-section"><summary>3. Country assessment questions</summary><p class="note">Multiple selections use independent Yes / No / Not sure responses. A01 and A02 display the profile and care-level answers. These questions document current country practices; they do not automatically approve calculation assumptions.</p><div id="cq-questions"></div></details>
+<details class="panel cq-section"><summary>4. Service availability by national level</summary><label class="f" for="cq-service">Service</label><select id="cq-service"></select><div id="cq-service-fields"></div></details>
+<details class="panel cq-section"><summary>5. Birth types and complication case mix</summary><label class="f" for="cq-case-level">Reporting scope</label><select id="cq-case-level"></select><p class="note">Spontaneous vaginal, assisted vaginal, planned caesarean and emergency caesarean modes must be mutually exclusive. Multiple birth is a separate flag. Complications can overlap modes and each other; their counts are never added to total births.</p><div class="scroll"><table id="cq-births" class="cq-wide"></table></div><p id="cq-birth-total" class="note"></p><h3 style="margin-top:20px">Complications</h3><div class="scroll"><table id="cq-complications" class="cq-wide"></table></div></details>
+<details class="panel cq-section"><summary>6. Birth pathway assessment questions</summary><div id="cq-pathways"></div></details>
+<details class="panel cq-section" open><summary>7. Equipment medicines surgical and laboratory products</summary>
+<p>Use one consolidated record per product variant and facility. Selecting multiple services or indications describes use; it does not multiply patient workload. Shared devices must use a deduplicated combined workload. Duplicate facility/product records require consolidation before calculating a procurement gap.</p>
+<div class="qgrid"><div><label class="f" for="cq-category">Product section</label><select id="cq-category"></select></div><div><label class="f" for="cq-record">Product record</label><select id="cq-record"></select></div></div>
+<div class="actions"><button id="cq-add-record" class="btn alt">Add another facility or product variant</button></div>
+<div id="cq-product-fields"></div><div id="cq-product-result" class="panel" style="margin-top:18px" aria-live="polite"></div>
+<details style="margin-top:16px"><summary>Calculation definitions</summary><p class="note">Reusable and durable workload: eligible patients = annual workload × eligible share. Annual capacity = patients per unit per day × operating days × usable capacity share. Required units = round up eligible patients ÷ capacity, after buffer, subject to minimum readiness. Eligibility is not rounded before division. Single-use workload: annual units = workload × eligible share × units per patient per event × events per patient per year. Norm method: basis count × units per basis for this 12-month period. Buffer and minimum apply once.</p><p class="note">Available = usable stock − units retiring or expiring by need date + confirmed repairs + confirmed funded incoming units usable by that date. Gap = max(0, requirement − available). Lead times, readiness and repair timing require verification. National pooled workloads do not produce a facility procurement gap; allocate to facilities first. Device-use counts may differ from distinct patients for repeat procedures; document the denominator and effective throughput.</p></details>
+<h3 style="margin-top:20px">Entered product records</h3><p class="note">Only records with a planning scope are listed. Counts across different products are not summed.</p><div class="scroll"><table id="cq-results" style="min-width:900px"></table></div>
+</details>
+</section>
 
 <section id="p5" class="hide">
 <div class="panel" style="margin-bottom:16px">
@@ -250,8 +275,8 @@ $("tbl2").innerHTML=`<tr><th>Item</th><th>Unit</th><th class="n">Per birth</th><
 $("births").oninput=()=>{calc();equipmentCalc()};$("months").oninput=()=>{calc();equipmentCalc()};
 buildSliders();build1();calc();
 // tabs
-function tab(n){[1,2,3,4,5].forEach(i=>{$("p"+i).classList.toggle("hide",n!==i);$("t"+i).setAttribute("aria-selected",n===i)})}
-[1,2,3,4,5].forEach(i=>$("t"+i).onclick=()=>tab(i));
+function tab(n){[1,2,3,4,5,6].forEach(i=>{$("p"+i).classList.toggle("hide",n!==i);$("t"+i).setAttribute("aria-selected",n===i)})}
+[1,2,3,4,5,6].forEach(i=>$("t"+i).onclick=()=>tab(i));
 
 // ---- Country questionnaire. Field: [id, label, type(t text, n number, p percent, s select), unit or options, feeds forecast]
 const A={};
@@ -802,7 +827,1235 @@ $('assessment-csv').onclick=()=>{
 };
 assessmentBuild();
 
-tab(5);
+const CLARIFIED={
+  "source": "UNFPA_Country_Questionnaire_Clarified_Equipment_Workload.xlsx",
+  "questions": [
+    {
+      "code": "A01",
+      "section": "A",
+      "question": "How many distinct levels of care are recognised in your country?",
+      "choices": [
+        "Reference: Count levels in START & COUNTRY, then complete LEVELS OF CARE."
+      ],
+      "type": "derived"
+    },
+    {
+      "code": "A02",
+      "section": "A",
+      "question": "Which levels of care are formally recognised in your country?",
+      "choices": [
+        "Choose all recognised levels in LEVELS OF CARE"
+      ],
+      "type": "derived"
+    },
+    {
+      "code": "A03",
+      "section": "A",
+      "question": "Are maternal health service packages formally defined for each level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "A04",
+      "section": "A",
+      "question": "Which maternal health services are provided in your country?",
+      "choices": [
+        "Antenatal care",
+        "Normal delivery",
+        "Basic emergency obstetric and newborn care",
+        "Comprehensive emergency obstetric and newborn care",
+        "Postnatal care",
+        "Maternal referral and emergency stabilisation",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "A05",
+      "section": "A",
+      "question": "Do maternal health services differ between facilities classified at the same level of care?",
+      "choices": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B01",
+      "section": "B",
+      "question": "Which healthcare staff cadres provide maternal health services in your country?",
+      "choices": [
+        "Midwife",
+        "Nurse",
+        "Medical officer / physician",
+        "Obstetrician / gynaecologist",
+        "Clinical officer",
+        "Anaesthesia provider",
+        "Biomedical / equipment personnel",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "B02",
+      "section": "B",
+      "question": "Are official maternal health staffing norms available by level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B03",
+      "section": "B",
+      "question": "Which staffing figures are available for maternal health services?",
+      "choices": [
+        "Actual staffing numbers",
+        "Approved staffing norms",
+        "Both available",
+        "Neither available",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B04",
+      "section": "B",
+      "question": "Which maternal health service workload indicators are routinely recorded?",
+      "choices": [
+        "ANC first visits",
+        "Total ANC visits",
+        "Annual deliveries",
+        "Emergency obstetric cases",
+        "Caesarean sections",
+        "Postnatal visits",
+        "Pregnant women / expected births",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "B05",
+      "section": "B",
+      "question": "How are equipment requirements currently specified in national standards?",
+      "choices": [
+        "Per individual staff member",
+        "Per clinical team",
+        "Per delivery room / service point",
+        "Per facility",
+        "Per bed",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C01",
+      "section": "C",
+      "question": "Which categories of maternal health commodities and equipment are used in your country?",
+      "choices": [
+        "Single-use maternal health commodities",
+        "Reusable medical devices",
+        "Durable medical equipment",
+        "Accessories / replacement components",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C02",
+      "section": "C",
+      "question": "Is there an approved list of maternal health commodities and equipment for each level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C03",
+      "section": "C",
+      "question": "What bases are specified in national standards for determining product quantities?",
+      "choices": [
+        "Facility-level equipment norm",
+        "Staffing / team norm",
+        "Room / service point norm",
+        "Service utilisation / case load",
+        "Population / expected pregnancies",
+        "Combined / hybrid method",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C04",
+      "section": "C",
+      "question": "Are approved equipment quantities or commodity use factors documented by service or level of care?",
+      "choices": [
+        "All products",
+        "Some products",
+        "None",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C05",
+      "section": "C",
+      "question": "Are maternal health products classified as single-use commodities, reusable devices or durable equipment?",
+      "choices": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C06",
+      "section": "C",
+      "question": "Which stock, inventory and incoming supply records are currently maintained?",
+      "choices": [
+        "Available usable commodity stock",
+        "Functional equipment on hand",
+        "Confirmed pipeline / deliveries",
+        "Stock buffer / safety stock",
+        "Equipment due for replacement",
+        "Repairable non-functional equipment",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D01",
+      "section": "D",
+      "question": "How are maternal health commodity and equipment requirements currently estimated?",
+      "choices": [
+        "Excel quantification",
+        "Paper-based tally / manual",
+        "Needs assessments",
+        "Historical procurement quantities",
+        "Facility or staffing standards",
+        "Service utilisation",
+        "Expert estimate",
+        "No formal approach",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D02",
+      "section": "D",
+      "question": "Which methods are currently used to determine maternal health commodity and equipment requirements?",
+      "choices": [
+        "Facility-level equipment norm",
+        "Staffing / team norm",
+        "Room / service point norm",
+        "Service utilisation / case load",
+        "Population / expected pregnancies",
+        "Combined / hybrid method",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D03",
+      "section": "D",
+      "question": "Which planning parameters are routinely updated during maternal health quantification?",
+      "choices": [
+        "Number of facilities",
+        "Staff numbers",
+        "Service utilisation / caseload",
+        "Service coverage",
+        "Product norms / use factors",
+        "Planning period",
+        "Expected stock availability",
+        "Costs / prices",
+        "No formal parameter review",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D04",
+      "section": "D",
+      "question": "What planning period is normally used for maternal health commodity and equipment quantification?",
+      "choices": [
+        "1 year",
+        "2 years",
+        "3 years",
+        "4 years",
+        "5 years",
+        "User selected",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "D05",
+      "section": "D",
+      "question": "How frequently are maternal health commodity or equipment requirements reviewed?",
+      "choices": [
+        "Monthly",
+        "Quarterly",
+        "Annually",
+        "As needed",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "D06",
+      "section": "D",
+      "question": "Which quantitative outputs are currently prepared during maternal health planning?",
+      "choices": [
+        "Gross forecast quantities",
+        "Functional equipment requirements",
+        "Net quantities after stock / pipeline",
+        "Procurement quantities",
+        "Estimated costs",
+        "Funding shortfall",
+        "No calculations currently prepared",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E01",
+      "section": "E",
+      "question": "Is an up-to-date facility master list available, including each facility level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "E02",
+      "section": "E",
+      "question": "Which staffing datasets are currently available for maternal health planning?",
+      "choices": [
+        "Actual staff by cadre and facility",
+        "Approved staff establishment",
+        "Minimum staffing norms by care level",
+        "No staffing dataset available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E03",
+      "section": "E",
+      "question": "Which maternal health service and population datasets are currently available?",
+      "choices": [
+        "ANC visits",
+        "Deliveries",
+        "Complication / procedure counts",
+        "Population or expected pregnancy estimates",
+        "No service data available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E04",
+      "section": "E",
+      "question": "Which maternal health commodity and equipment datasets are currently available?",
+      "choices": [
+        "Product master list",
+        "Equipment norms",
+        "Commodity stock on hand",
+        "Functional equipment inventory",
+        "Confirmed pipeline",
+        "Unit prices",
+        "No product/supply dataset available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F01",
+      "section": "F",
+      "question": "At which administrative levels are maternal health commodity and equipment requirements currently compiled?",
+      "choices": [
+        "Facility",
+        "District",
+        "Region / Province",
+        "Country total",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F02",
+      "section": "F",
+      "question": "How are maternal health planning data currently collected or submitted?",
+      "choices": [
+        "Paper forms",
+        "Manual entry into Excel",
+        "Standard reporting templates",
+        "Electronic health information system",
+        "CSV / Excel file submission",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F03",
+      "section": "F",
+      "question": "Which maternal health quantification reports or summaries are currently produced?",
+      "choices": [
+        "Product quantities by level of care",
+        "Product quantities by geography",
+        "Staff / service-linked requirements",
+        "Total costs",
+        "Gross vs net procurement gap",
+        "Excel tables",
+        "PDF / printed summary",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F04",
+      "section": "F",
+      "question": "What format is currently used to prepare and share maternal health quantification results?",
+      "choices": [
+        "Excel spreadsheet",
+        "Web-based system",
+        "Paper forms",
+        "Mixed formats",
+        "No standard format",
+        "Other (specify)"
+      ],
+      "type": "single"
+    }
+  ],
+  "pathwayQuestions": [
+    {
+      "code": "P01",
+      "section": "P",
+      "question": "Are annual birth counts available separately for spontaneous vaginal, assisted vaginal, planned caesarean and emergency caesarean births?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P02",
+      "section": "P",
+      "question": "Which classifications of delivery are routinely recorded in your country's maternal health reporting?",
+      "choices": [
+        "Spontaneous vaginal birth",
+        "Assisted vaginal birth (vacuum/forceps)",
+        "Planned caesarean birth",
+        "Emergency caesarean birth",
+        "Multiple birth (flag separately; not additive)",
+        "Other delivery classification (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P03",
+      "section": "P",
+      "question": "At which levels of care are the different delivery methods provided? (Complete BIRTH TYPES & VOLUMES.)",
+      "choices": [
+        "Completed separately",
+        "Partially available",
+        "Not available"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P04",
+      "section": "P",
+      "question": "Are complications such as postpartum haemorrhage, pre-eclampsia/eclampsia, sepsis, obstructed labour and preterm birth recorded separately?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P05",
+      "section": "P",
+      "question": "Are annual complication case counts available by level of care and delivery type?",
+      "choices": [
+        "Yes",
+        " both",
+        "By level only",
+        "By delivery type only",
+        "National total only",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P06",
+      "section": "P",
+      "question": "Are standard care packages or commodity lists documented for each type of birth?",
+      "choices": [
+        "Yes",
+        " nationally",
+        "Yes",
+        " at some levels",
+        "Partially",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P07",
+      "section": "P",
+      "question": "Are additional medicines, surgical supplies, diagnostics or equipment specified for particular obstetric complications?",
+      "choices": [
+        "Yes",
+        " nationally",
+        "Yes",
+        " at some levels",
+        "Partially",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P08",
+      "section": "P",
+      "question": "What is the standard basis for estimating quantities of medicines and surgical supplies used during delivery?",
+      "choices": [
+        "Per patient",
+        "Per normal vaginal birth",
+        "Per assisted vaginal birth",
+        "Per caesarean birth",
+        "Per clinical complication case",
+        "Per procedure",
+        "Per laboratory test",
+        "Per antenatal visit",
+        "Per delivery room / service point",
+        "Per health worker / team",
+        "Per facility",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P09",
+      "section": "P",
+      "question": "Are typical numbers of laboratory tests per pregnancy, delivery or obstetric complication documented?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P10",
+      "section": "P",
+      "question": "Are procedures, tests or treatments repeated during the same patient's care, and are repeat frequencies recorded?",
+      "choices": [
+        "Yes",
+        " routinely",
+        "Sometimes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P11",
+      "section": "P",
+      "question": "Are patient transfers/referrals tracked so the same event is not counted twice across facilities?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P12",
+      "section": "P",
+      "question": "Are staffing, equipment readiness and service-point standards specified for each delivery method?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P13",
+      "section": "P",
+      "question": "Which sources define the required items and quantities for each delivery pathway or complication?",
+      "choices": [
+        "National standard treatment guidelines",
+        "Maternal / obstetric service protocols",
+        "Essential medicines list",
+        "National equipment standards",
+        "Clinical care bundles",
+        "Facility records / registers",
+        "Consumption or procurement records",
+        "Professional expert consensus",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P14",
+      "section": "P",
+      "question": "Is the annual number of births or obstetric cases available for each facility or facility level?",
+      "choices": [
+        "Facility-level",
+        "Level-level only",
+        "National only",
+        "Not available",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P15",
+      "section": "P",
+      "question": "For single-use products, are standard units per patient, delivery, procedure or test specified?",
+      "choices": [
+        "Yes",
+        " all products",
+        "Yes",
+        " some products",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P16",
+      "section": "P",
+      "question": "For reusable equipment, are minimum units per service point, facility or clinical team specified?",
+      "choices": [
+        "Yes",
+        " all equipment",
+        "Yes",
+        " some equipment",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    }
+  ],
+  "products": [
+    {
+      "id": "EQUIPMENT-6",
+      "category": "EQUIPMENT",
+      "name": "Blood pressure monitor",
+      "use": "Maternal assessment"
+    },
+    {
+      "id": "EQUIPMENT-7",
+      "category": "EQUIPMENT",
+      "name": "Ultrasound scanner",
+      "use": "Antenatal / obstetric assessment"
+    },
+    {
+      "id": "EQUIPMENT-8",
+      "category": "EQUIPMENT",
+      "name": "Fetal Doppler",
+      "use": "Fetal monitoring"
+    },
+    {
+      "id": "EQUIPMENT-9",
+      "category": "EQUIPMENT",
+      "name": "Cardiotocography (CTG) machine",
+      "use": "Fetal monitoring"
+    },
+    {
+      "id": "EQUIPMENT-10",
+      "category": "EQUIPMENT",
+      "name": "Delivery bed",
+      "use": "Childbirth"
+    },
+    {
+      "id": "EQUIPMENT-11",
+      "category": "EQUIPMENT",
+      "name": "Examination couch",
+      "use": "ANC / clinical examination"
+    },
+    {
+      "id": "EQUIPMENT-12",
+      "category": "EQUIPMENT",
+      "name": "Patient monitor",
+      "use": "Emergency obstetric care"
+    },
+    {
+      "id": "EQUIPMENT-13",
+      "category": "EQUIPMENT",
+      "name": "Suction machine",
+      "use": "Delivery / emergency"
+    },
+    {
+      "id": "EQUIPMENT-14",
+      "category": "EQUIPMENT",
+      "name": "Oxygen concentrator",
+      "use": "Emergency care"
+    },
+    {
+      "id": "EQUIPMENT-15",
+      "category": "EQUIPMENT",
+      "name": "Non-pneumatic anti-shock garment",
+      "use": "Postpartum haemorrhage management"
+    },
+    {
+      "id": "EQUIPMENT-16",
+      "category": "EQUIPMENT",
+      "name": "Infusion pump",
+      "use": "Emergency care"
+    },
+    {
+      "id": "EQUIPMENT-17",
+      "category": "EQUIPMENT",
+      "name": "Sterilisation equipment / autoclave",
+      "use": "Infection prevention"
+    },
+    {
+      "id": "EQUIPMENT-18",
+      "category": "EQUIPMENT",
+      "name": "Instrument trolley",
+      "use": "Delivery / procedures"
+    },
+    {
+      "id": "EQUIPMENT-19",
+      "category": "EQUIPMENT",
+      "name": "Other equipment (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "MEDICINES-6",
+      "category": "MEDICINES",
+      "name": "Oxytocin injection",
+      "use": "Prevention / treatment of PPH"
+    },
+    {
+      "id": "MEDICINES-7",
+      "category": "MEDICINES",
+      "name": "Misoprostol tablets",
+      "use": "PPH prevention / management"
+    },
+    {
+      "id": "MEDICINES-8",
+      "category": "MEDICINES",
+      "name": "Tranexamic acid injection",
+      "use": "PPH treatment"
+    },
+    {
+      "id": "MEDICINES-9",
+      "category": "MEDICINES",
+      "name": "Magnesium sulfate injection",
+      "use": "Pre-eclampsia / eclampsia"
+    },
+    {
+      "id": "MEDICINES-10",
+      "category": "MEDICINES",
+      "name": "Calcium gluconate injection",
+      "use": "Management of magnesium toxicity"
+    },
+    {
+      "id": "MEDICINES-11",
+      "category": "MEDICINES",
+      "name": "Antihypertensive medicines",
+      "use": "Hypertensive disorders of pregnancy"
+    },
+    {
+      "id": "MEDICINES-12",
+      "category": "MEDICINES",
+      "name": "Iron and folic acid tablets",
+      "use": "Antenatal care"
+    },
+    {
+      "id": "MEDICINES-13",
+      "category": "MEDICINES",
+      "name": "Antenatal corticosteroids",
+      "use": "Preterm birth management"
+    },
+    {
+      "id": "MEDICINES-14",
+      "category": "MEDICINES",
+      "name": "Antibiotics for maternal infection",
+      "use": "Infection management"
+    },
+    {
+      "id": "MEDICINES-15",
+      "category": "MEDICINES",
+      "name": "Local anaesthetics",
+      "use": "Maternal procedures"
+    },
+    {
+      "id": "MEDICINES-16",
+      "category": "MEDICINES",
+      "name": "IV fluids",
+      "use": "Maternal emergency care"
+    },
+    {
+      "id": "MEDICINES-17",
+      "category": "MEDICINES",
+      "name": "Other medicine (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "SURGICAL-6",
+      "category": "SURGICAL",
+      "name": "Sterile delivery kit / pack",
+      "use": "Childbirth"
+    },
+    {
+      "id": "SURGICAL-7",
+      "category": "SURGICAL",
+      "name": "Sterile surgical gloves",
+      "use": "Delivery / procedures"
+    },
+    {
+      "id": "SURGICAL-8",
+      "category": "SURGICAL",
+      "name": "Examination gloves",
+      "use": "Maternal care"
+    },
+    {
+      "id": "SURGICAL-9",
+      "category": "SURGICAL",
+      "name": "Suture materials",
+      "use": "Perineal / surgical repair"
+    },
+    {
+      "id": "SURGICAL-10",
+      "category": "SURGICAL",
+      "name": "Scalpel blades",
+      "use": "Surgical procedures"
+    },
+    {
+      "id": "SURGICAL-11",
+      "category": "SURGICAL",
+      "name": "Sterile gauze / dressings",
+      "use": "Delivery / surgical care"
+    },
+    {
+      "id": "SURGICAL-12",
+      "category": "SURGICAL",
+      "name": "Urinary catheter",
+      "use": "Obstetric procedures"
+    },
+    {
+      "id": "SURGICAL-13",
+      "category": "SURGICAL",
+      "name": "IV cannula / administration set",
+      "use": "Maternal care"
+    },
+    {
+      "id": "SURGICAL-14",
+      "category": "SURGICAL",
+      "name": "Syringes and needles",
+      "use": "Medicines administration"
+    },
+    {
+      "id": "SURGICAL-15",
+      "category": "SURGICAL",
+      "name": "Uterine balloon tamponade kit",
+      "use": "PPH treatment"
+    },
+    {
+      "id": "SURGICAL-16",
+      "category": "SURGICAL",
+      "name": "Calibrated blood collection drape",
+      "use": "Delivery / PPH detection"
+    },
+    {
+      "id": "SURGICAL-17",
+      "category": "SURGICAL",
+      "name": "Caesarean section procedure pack",
+      "use": "Operative delivery"
+    },
+    {
+      "id": "SURGICAL-18",
+      "category": "SURGICAL",
+      "name": "Sterilisation packaging / indicators",
+      "use": "Instrument reprocessing"
+    },
+    {
+      "id": "SURGICAL-19",
+      "category": "SURGICAL",
+      "name": "Other surgical supply (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "LAB-6",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Haemoglobin test / consumables",
+      "use": "Anaemia screening"
+    },
+    {
+      "id": "LAB-7",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood grouping / Rh typing reagents",
+      "use": "Antenatal laboratory services"
+    },
+    {
+      "id": "LAB-8",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Urine protein test strips",
+      "use": "Pre-eclampsia screening"
+    },
+    {
+      "id": "LAB-9",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Urine pregnancy test",
+      "use": "Pregnancy confirmation"
+    },
+    {
+      "id": "LAB-10",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "HIV rapid diagnostic tests",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-11",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Syphilis rapid tests",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-12",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Hepatitis B test kits",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-13",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Malaria rapid diagnostic tests",
+      "use": "Febrile illness / malaria screening"
+    },
+    {
+      "id": "LAB-14",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood glucose test strips",
+      "use": "Diabetes screening"
+    },
+    {
+      "id": "LAB-15",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Full blood count reagents / tests",
+      "use": "Laboratory assessment"
+    },
+    {
+      "id": "LAB-16",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood crossmatch reagents",
+      "use": "Transfusion preparation"
+    },
+    {
+      "id": "LAB-17",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Sample collection tubes / lancets",
+      "use": "Sample collection"
+    },
+    {
+      "id": "LAB-18",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Other laboratory or diagnostic item (specify)",
+      "use": "Other"
+    }
+  ],
+  "levelOptions": [
+    "Health post",
+    "Health centre",
+    "Level 1",
+    "Level 2",
+    "Level 3",
+    "Level 4",
+    "Other (specify)"
+  ],
+  "services": [
+    "Antenatal care (ANC)",
+    "Routine antenatal risk screening",
+    "Normal vaginal delivery",
+    "Postnatal care (maternal)",
+    "Postnatal care (newborn)",
+    "Maternal referral and emergency stabilisation",
+    "Basic emergency obstetric and newborn care (BEmONC)",
+    "Comprehensive emergency obstetric and newborn care (CEmONC)",
+    "Management of postpartum haemorrhage",
+    "Management of hypertensive disorders/eclampsia",
+    "Management of maternal sepsis",
+    "Caesarean section",
+    "Assisted vaginal delivery",
+    "Obstetric ultrasound services",
+    "Fetal monitoring (Doppler/CTG)",
+    "Maternal anaemia screening",
+    "Blood grouping and crossmatching",
+    "Blood transfusion for obstetric emergencies",
+    "Urinalysis / proteinuria screening",
+    "Family planning / postpartum contraception",
+    "Post-abortion care (where provided)",
+    "Other (specify)"
+  ],
+  "serviceChoices": [
+    "Antenatal care",
+    "Routine labour and delivery",
+    "Postnatal care",
+    "Basic emergency obstetric and newborn care",
+    "Comprehensive emergency obstetric and newborn care",
+    "Obstetric emergency stabilisation / referral",
+    "Caesarean section",
+    "Family planning / post-abortion care",
+    "Maternal laboratory screening",
+    "Obstetric ultrasound / imaging",
+    "Maternal monitoring / observation",
+    "Blood transfusion services",
+    "Other (specify)",
+    "Not known"
+  ],
+  "indications": [
+    "Routine pregnancy / preventive care",
+    "Normal labour / delivery",
+    "Postpartum haemorrhage (PPH)",
+    "Antepartum haemorrhage",
+    "Pre-eclampsia / eclampsia",
+    "Hypertension in pregnancy",
+    "Maternal anaemia",
+    "Maternal sepsis / infection",
+    "Obstructed / prolonged labour",
+    "Preterm labour / birth",
+    "Gestational diabetes",
+    "Malaria in pregnancy",
+    "HIV in pregnancy",
+    "Syphilis in pregnancy",
+    "Hepatitis B in pregnancy",
+    "Blood group / Rh incompatibility",
+    "Obstetric surgery / caesarean section",
+    "Maternal resuscitation / shock",
+    "Postpartum care / complications",
+    "Other (specify)",
+    "Not known"
+  ],
+  "birthTypes": [
+    "Spontaneous vaginal birth",
+    "Assisted vaginal birth (vacuum/forceps)",
+    "Planned caesarean birth",
+    "Emergency caesarean birth",
+    "Multiple birth (flag separately; not additive)",
+    "Other delivery classification (specify)",
+    "All delivery types",
+    "Not linked to delivery mode",
+    "Other (specify)"
+  ],
+  "stages": [
+    "Antenatal care",
+    "Labour / intrapartum care",
+    "Delivery",
+    "Immediate postnatal care",
+    "Emergency obstetric care",
+    "Laboratory screening / diagnosis",
+    "Postnatal follow-up",
+    "Other (specify)"
+  ],
+  "triggers": [
+    "Per patient",
+    "Per birth",
+    "Per specific birth type",
+    "Per complication case",
+    "Per procedure",
+    "Per test",
+    "Per visit",
+    "Per facility",
+    "Per delivery room",
+    "Per clinical team",
+    "Per staff member",
+    "Other (specify)"
+  ],
+  "bases": [
+    "Per facility",
+    "Per health worker",
+    "Per clinical team",
+    "Per service point / room",
+    "Per maternity bed",
+    "Per patient",
+    "Per ANC visit",
+    "Per delivery",
+    "Per procedure / case",
+    "Per test",
+    "Per population",
+    "Per equipment replacement",
+    "Other (specify)",
+    "Not known"
+  ],
+  "complications": [
+    "No documented obstetric complication",
+    "Postpartum haemorrhage",
+    "Hypertensive disorder / pre-eclampsia",
+    "Eclampsia",
+    "Maternal sepsis / infection",
+    "Obstructed or prolonged labour",
+    "Preterm labour / birth",
+    "Anaemia requiring clinical management",
+    "Retained placenta",
+    "Ruptured membranes / maternal infection risk",
+    "Other complication (specify)"
+  ]
+};
+
+const CQCHOICES=['Yes','No','Not sure','Not applicable'];
+const CQPROFILE=[['country','Country','country'],['coordinator','Response coordinator','text'],['institution','Institution or programme','text'],['email','Email optional','text'],['date','Country response date','date'],['declared','Number of distinct national levels of care','number'],['formal','Are levels formally defined in national policy?','choice'],['policy','Policy or guideline title and source','text']];
+const CQPRODUCT=[
+ ['scope','Planning scope','select',['Single facility / service unit','National data only']],['facility','Facility or service unit identifier','text'],['level','National level of care','level'],['variant','National item name or variant','text'],['used','Used in country?','choice'],['kind','Validated product classification','select',['Single-use','Reusable device','Durable equipment']],['unit','Base unit of measure','text'],['year','Full 12-month reporting year','number'],
+ ['method','Quantification method','select',['Workload','Norm']],['basis','National norm basis','select',CLARIFIED.bases],['basisCount','Count of staff teams rooms beds or facilities for norm','number'],['unitsPerBasis','Base units per norm basis for this annual period','number'],
+ ['workload','Total relevant service patients or events per year','number'],['share','Share requiring this item (%)','number'],['daily','Patients or events ONE equipment unit serves per day','number'],['days','Operating days per year','number'],['utilisation','Usable capacity (%)','number'],['unitsEvent','Single-use base units per patient per event','number'],['eventsPatient','Events per patient per year','number'],['minimum','Minimum readiness units','number'],['buffer','Buffer (%)','number'],
+ ['birthType','Birth type or pathway','select',CLARIFIED.birthTypes],['stage','Care stage or clinical activity','select',CLARIFIED.stages],['trigger','Product requirement triggered by','select',CLARIFIED.triggers],['cadre','Staff cadre if relevant','text'],['other','Other service indication or denominator details','text'],
+ ['stock','Existing functional or unexpired usable units','number'],['nonfunctional','Nonfunctional or expired units','number'],['retire','Usable units retiring or expiring by need date','number'],['repairs','Confirmed repairs usable by need date','number'],['incoming','Confirmed funded arrivals usable by need date','number'],['assessed','Inventory assessment date','date'],['need','Need by date','date'],['life','Expected useful life years if applicable','number'],['age','Oldest functional asset age years if applicable','number'],['lead','Procurement lead time months','number'],['cost','Landed cost per base unit','number'],['currency','Cost currency','text'],['source','Workload and operating assumption evidence','text'],['protocol','National package protocol or norm reference','text'],['owner','Validation owner','text']
+];
+const cqRecord=id=>({id,...Object.fromEntries(CQPRODUCT.map(([k])=>[k,k==='buffer'||k==='minimum'?'0':''])),services:[],indications:[]});
+const cqAnswer=q=>({answer:'',details:'',selections:q.type==='multiple'?q.choices.map(()=>''):[]});
+const cqBlank=()=>({profile:Object.fromEntries(CQPROFILE.map(([k])=>[k,''])),levels:CLARIFIED.levelOptions.map((label,i)=>({id:'L'+i,label,exists:'',name:'',facilities:'',source:''})),questions:CLARIFIED.questions.map(cqAnswer),pathways:CLARIFIED.pathwayQuestions.map(cqAnswer),services:CLARIFIED.services.map(()=>({provided:'',levels:{},source:''})),births:{},complications:{},products:CLARIFIED.products.map(p=>cqRecord(p.id))});
+let cq=cqBlank(),cqDirty=false;
+const cqText=v=>typeof v==='string'&&v.length<=4000;
+const cqNumeric=v=>v!==''&&String(v).trim()!==''&&Number.isFinite(+v)&&+v>=0;
+const cqWhole=v=>cqNumeric(v)&&Number.isSafeInteger(+v);
+const cqRoundUp=v=>Math.ceil(Math.round(v*1e8)/1e8);
+function cqLevels(){return cq.levels.filter(l=>l.exists==='Yes').map(l=>({id:l.id,name:l.name||l.label}));}
+function cqSelect(path,label,value,options){return `<label class="f">${esc(label)}</label><select data-cq="${path}" aria-label="${esc(label)}"><option value="">Select / unknown</option>`+options.map(o=>{const v=typeof o==='object'?o.id:o,n=typeof o==='object'?o.name:o;return `<option value="${esc(v)}" ${v===value?'selected':''}>${esc(n)}</option>`}).join('')+'</select>';}
+function cqInput(path,label,value,type='text'){return `<label class="f">${esc(label)}</label><input data-cq="${path}" aria-label="${esc(label)}" type="${type}" ${type==='number'?'min="0" step="any"':''} maxlength="4000" value="${esc(value)}">`;}
+function cqBind(){document.querySelectorAll('#p6 [data-cq]').forEach(el=>el.oninput=el.onchange=()=>{const keys=el.dataset.cq.split('.');let obj=cq;for(const key of keys.slice(0,-1))obj=obj[key];if(keys.join('.')==='profile.country'&&cqDirty&&obj.country&&el.value!==obj.country){el.value=obj.country;$('cq-message').textContent='Save this country response and start a new questionnaire before changing country.';return}obj[keys.at(-1)]=el.value;cqDirty=true;if(keys[0]==='levels'){cqRefreshLevelSelectors();cqProductBuild()}cqStatus();if(keys[0]==='products'){['kind','method'].includes(keys.at(-1))?cqProductBuild():cqCalculateView()}});}
+function cqProfileBuild(){
+ $('cq-profile').innerHTML=CQPROFILE.map(([k,l,t])=>'<div>'+(t==='country'?cqSelect('profile.'+k,l,cq.profile[k],REFERENCE.countries.map(c=>c.country)):t==='choice'?cqSelect('profile.'+k,l,cq.profile[k],CQCHOICES):cqInput('profile.'+k,l,cq.profile[k],t))+'</div>').join('');
+ $('cq-levels').innerHTML='<thead><tr><th>Suggested or added category</th><th>Exists?</th><th>National name or equivalent</th><th>Facility count</th><th>Policy or source</th></tr></thead><tbody>'+cq.levels.map((l,i)=>`<tr><th scope="row">${esc(l.label)}</th><td>${cqSelect('levels.'+i+'.exists',l.label+' exists',l.exists,CQCHOICES)}</td>`+['name','facilities','source'].map(k=>'<td>'+cqInput('levels.'+i+'.'+k,l.label+' '+k,l[k],k==='facilities'?'number':'text')+'</td>').join('')+'</tr>').join('')+'</tbody>';
+ cqBind();
+}
+function cqQuestionsBuild(key,questions,id){
+ $(''+id).innerHTML=questions.map((q,i)=>`<fieldset class="cq-question"><legend>${esc(q.code+' '+q.question)}</legend>`+(q.type==='derived'?`<p id="cq-derived-${q.code}">`+(q.code==='A01'?esc(cq.profile.declared||'Enter the national level count in Start and country profile.'):esc(cqLevels().map(l=>l.name).join(', ')||'Complete National levels of care.'))+'</p>':q.type==='single'?cqSelect(`${key}.${i}.answer`,q.code+' response',cq[key][i].answer,q.choices):'<div class="qgrid">'+q.choices.map((o,j)=>'<div>'+cqSelect(`${key}.${i}.selections.${j}`,q.code+' — '+o,cq[key][i].selections[j],['Yes','No','Not sure'])+'</div>').join('')+'</div>')+cqInput(`${key}.${i}.details`,q.code+' details other wording or source',cq[key][i].details)+'</fieldset>').join('');cqBind();
+}
+function cqRefreshLevelSelectors(){
+ const el=$('cq-case-level'),value=el.value;el.innerHTML='<option value="national">All levels — national data</option>'+cqLevels().map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join('');if(value==='national'||cqLevels().some(l=>l.id===value))el.value=value;else el.value='national';
+ cqServiceBuild();cqCaseBuild();
+}
+function cqServiceBuild(){const i=+$('cq-service').value||0,s=cq.services[i];cqLevels().forEach(l=>{if(s.levels[l.id]===undefined)s.levels[l.id]=''});$('cq-service-fields').innerHTML=cqSelect(`services.${i}.provided`,'Provided in country?',s.provided,CQCHOICES)+'<div class="qgrid">'+cqLevels().map(l=>'<div>'+cqSelect(`services.${i}.levels.${l.id}`,l.name,s.levels[l.id],CQCHOICES)+'</div>').join('')+'</div>'+cqInput(`services.${i}.source`,'Service source and national wording',s.source);cqBind();}
+function cqCaseBuild(){
+ const key=$('cq-case-level').value||'national';
+ if(!cq.births[key])cq.births[key]=CLARIFIED.birthTypes.slice(0,6).map(()=>({count:'',share:'',year:'',source:'',notes:''}));
+ if(!cq.complications[key])cq.complications[key]=CLARIFIED.complications.map(()=>({patients:'',events:'',rate:'',year:'',source:'',definition:'',birthType:''}));
+ $('cq-births').innerHTML='<thead><tr><th>Birth classification</th><th>Annual count</th><th>Share of relevant births (%)</th><th>Year</th><th>Source</th><th>Definition and referral notes</th></tr></thead><tbody>'+CLARIFIED.birthTypes.slice(0,6).map((name,i)=>'<tr><th scope="row">'+esc(name)+'</th>'+['count','share','year','source','notes'].map(k=>'<td>'+cqInput(`births.${key}.${i}.${k}`,name+' '+k,cq.births[key][i][k],['count','share','year'].includes(k)?'number':'text')+'</td>').join('')+'</tr>').join('')+'</tbody>';
+ $('cq-complications').innerHTML='<thead><tr><th>Complication</th><th>Affected patients</th><th>Clinical events</th><th>Rate among relevant births (%)</th><th>Year</th><th>Source</th><th>Definition / denominator / referral note</th><th>Related birth type</th></tr></thead><tbody>'+CLARIFIED.complications.map((name,i)=>'<tr><th scope="row">'+esc(name)+'</th>'+['patients','events','rate','year','source','definition','birthType'].map(k=>'<td>'+(k==='birthType'?cqSelect(`complications.${key}.${i}.${k}`,name+' related birth type',cq.complications[key][i][k],['All relevant births',...CLARIFIED.birthTypes]):cqInput(`complications.${key}.${i}.${k}`,name+' '+k,cq.complications[key][i][k],['patients','events','rate','year'].includes(k)?'number':'text'))+'</td>').join('')+'</tr>').join('')+'</tbody>';cqBind();cqBirthTotal();
+}
+function cqBirthTotal(){const rows=cq.births[$('cq-case-level').value||'national'];if(!rows)return;const main=rows.slice(0,4);$('cq-birth-total').textContent=main.every(r=>cqWhole(r.count)&&cqWhole(r.year)&&+r.year>=1900)&&new Set(main.map(r=>r.year)).size===1?'Sum of four mutually exclusive recorded modes: '+main.reduce((n,r)=>n + +r.count,0).toLocaleString()+'. Multiple birth and other classifications are excluded; reconcile definitions before treating this as total births.':'No birth total: enter all four mutually exclusive mode counts for the same reporting year. Complications and multiple births are not added.';}
+function cqGross(r){
+ const fail=status=>({gross:null,status,eligible:null,capacity:null});
+ if(r.scope!=='Single facility / service unit')return fail(r.scope==='National data only'?'Allocate national data to facilities first':'Select planning scope');
+ if(r.used!=='Yes')return fail('Confirm that this product is used in country');
+ if(!r.facility||!r.level)return fail('Enter facility and national care level');
+ if(!['Single-use','Reusable device','Durable equipment'].includes(r.kind))return fail('Validate product classification');
+ if(!cqWhole(r.year)||+r.year<1900||+r.year>2200||!r.unit)return fail('Enter reporting year and base unit');
+ if(!cqWhole(r.minimum)||!cqNumeric(r.buffer)||+r.buffer>100)return fail('Check minimum and buffer');
+ let raw,eligible=null,capacity=null;
+ if(r.method==='Norm'){
+  if(!r.basis||r.basis==='Not known'||!cqNumeric(r.basisCount)||!cqNumeric(r.unitsPerBasis))return fail('Enter norm basis count and units per basis');raw=+r.basisCount*+r.unitsPerBasis;
+ }else if(r.method==='Workload'){
+  if(!cqNumeric(r.workload)||!cqNumeric(r.share)||+r.share>100)return fail('Enter workload and eligible share');eligible=+r.workload*+r.share/100;
+  if(r.kind==='Single-use'){if(!cqNumeric(r.unitsEvent)||!cqNumeric(r.eventsPatient))return fail('Enter single-use factors');raw=eligible*+r.unitsEvent*+r.eventsPatient;}
+  else{if(!cqNumeric(r.daily)||+r.daily<=0||!cqNumeric(r.days)||+r.days<=0||+r.days>366||!cqNumeric(r.utilisation)||+r.utilisation<=0||+r.utilisation>100)return fail('Enter positive unit throughput days and usable capacity');capacity=+r.daily*+r.days*+r.utilisation/100;raw=eligible/capacity;}
+ }else return fail('Select workload or norm method');
+ if(!Number.isFinite(raw))return fail('Calculation exceeds valid numeric range');
+ return {gross:Math.max(+r.minimum,cqRoundUp(raw*(1+ +r.buffer/100))),eligible,capacity,status:'Gross requirement calculated'};
+}
+function cqResult(r,records=cq.products){
+ const base=cqGross(r),out={...base,gap:null,available:null,cost:null};
+ if(base.gross===null)return out;
+ if(!cqLevels().some(l=>l.id===r.level))return {...out,gross:null,status:'Confirm the selected national level exists'};
+ const duplicate=records.filter(x=>x.id===r.id&&x.facility.trim()===r.facility.trim()&&x.variant.trim().toLowerCase()===r.variant.trim().toLowerCase()&&x.scope==='Single facility / service unit'&&x.used==='Yes').length>1;
+ if(duplicate)return {...out,gross:null,status:'Consolidate shared product records for this facility'};
+ if(!r.source||!r.protocol||!r.owner)return {...out,status:'Add workload evidence protocol and validation owner'};
+ if(!['stock','nonfunctional','retire','repairs','incoming'].every(k=>cqWhole(r[k])))return {...out,status:'Complete inventory and confirmed supply; enter 0 if none'};
+ if(+r.retire>+r.stock||+r.repairs>+r.nonfunctional||r.kind==='Single-use'&&+r.repairs!==0)return {...out,status:'Reconcile retirements or repairs'};
+ const validDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s)&&!isNaN(Date.parse(s))&&new Date(s).toISOString().slice(0,10)===s;
+ if(!validDate(r.assessed)||!validDate(r.need)||r.need<r.assessed)return {...out,status:'Verify inventory and need dates'};
+ out.available=+r.stock-+r.retire + +r.repairs + +r.incoming;out.gap=Math.max(0,base.gross-out.available);
+ out.cost=out.gap===0?0:cqNumeric(r.cost)&&r.currency?out.gap*+r.cost:null;
+ out.status=out.cost===null?'Quantity ready; add unit cost and currency':'Ready for country review';
+ if(r.lead!==''&&cqNumeric(r.lead)&&+r.lead*30.4375>(Date.parse(r.need)-Date.parse(r.assessed))/86400000&&out.gap>0)out.status+='; lead time exceeds interval to need date';
+ return out;
+}
+function cqProductSelect(){const category=$('cq-category').value||CLARIFIED.products[0].category;$('cq-record').innerHTML=cq.products.map((r,i)=>({r,i,p:CLARIFIED.products.find(p=>p.id===r.id)})).filter(o=>o.p.category===category).map(o=>`<option value="${o.i}">${esc(o.p.name+(o.r.facility?' — '+o.r.facility:'')+(o.r.variant?' / '+o.r.variant:''))}</option>`).join('');cqProductBuild();}
+function cqProductBuild(){const i=+$('cq-record').value||0,r=cq.products[i],p=CLARIFIED.products.find(p=>p.id===r.id);$('cq-product-fields').innerHTML=`<p><b>${esc(p.name)}</b> — ${esc(p.use)}</p><div class="qgrid">`+CQPRODUCT.map(([k,l,t,options])=>{const inactive=r.method==='Norm'&&['workload','share','daily','days','utilisation','unitsEvent','eventsPatient'].includes(k)||r.method==='Workload'&&['basis','basisCount','unitsPerBasis'].includes(k)||r.kind==='Single-use'&&['daily','days','utilisation','life','age'].includes(k)||r.kind&&r.kind!=='Single-use'&&['unitsEvent','eventsPatient'].includes(k);return '<div'+(inactive?' class="hide"':'')+'>'+(t==='select'?cqSelect(`products.${i}.${k}`,l,r[k],options):t==='level'?cqSelect(`products.${i}.${k}`,l,r[k],cqLevels()):t==='choice'?cqSelect(`products.${i}.${k}`,l,r[k],CQCHOICES):cqInput(`products.${i}.${k}`,l,r[k],t))+'</div>';}).join('')+'</div>'+['services','indications'].map(k=>'<fieldset class="cq-question"><legend>'+ (k==='services'?'All applicable maternal services':'All applicable indications or complications')+'</legend><div class="qgrid">'+CLARIFIED[k==='services'?'serviceChoices':'indications'].map(v=>`<label><input type="checkbox" data-cq-tag="${k}" value="${esc(v)}" ${r[k].includes(v)?'checked':''}> ${esc(v)}</label>`).join('')+'</div></fieldset>').join('');cqBind();document.querySelectorAll('#p6 [data-cq-tag]').forEach(el=>el.onchange=()=>{const values=r[el.dataset.cqTag];el.checked?values.push(el.value):values.splice(values.indexOf(el.value),1);cqDirty=true;cqStatus();});
+ cqCalculateView();
+}
+function cqCalculateView(){const r=cq.products[+$('cq-record').value||0],x=cqResult(r);$('cq-product-result').innerHTML='<h3>Annual requirement</h3><p>'+[['Eligible patients or events',x.eligible],['Annual capacity per reusable unit',x.capacity],['Required units',x.gross],['Available units',x.available],['Net procurement gap',x.gap],['Estimated gap cost',x.cost]].map(([k,v])=>esc(k)+': <b>'+(v===null?'Unknown / not applicable':Number(v).toLocaleString(undefined,{maximumFractionDigits:4}))+'</b>').join(' · ')+'</p><p>'+esc(x.status)+'</p>';
+ $('cq-results').innerHTML='<thead><tr><th>Product</th><th>Facility</th><th>Classification</th><th>Gross</th><th>Gap</th><th>Cost</th><th>Currency</th><th>Status</th></tr></thead><tbody>'+cq.products.filter(r=>r.scope).map(r=>{const x=cqResult(r);return '<tr>'+[CLARIFIED.products.find(p=>p.id===r.id).name,r.facility,r.kind,x.gross??'Unknown',x.gap??'Unknown',x.cost??'Uncosted',r.currency,x.status].map(v=>'<td>'+esc(v)+'</td>').join('')+'</tr>';}).join('')+'</tbody>';}
+function cqIssues(data){
+ const errors=[],check=(v,name,max=Infinity,whole=false,min=0)=>{if(v!==''&&(!cqNumeric(v)||+v<min||+v>max||whole&&!Number.isSafeInteger(+v)))errors.push('Check '+name);};
+ check(data.profile.declared,'national level count',100,true,1);data.levels.forEach(l=>check(l.facilities,'facility count',Infinity,true));
+ data.products.forEach(r=>CQPRODUCT.filter(f=>f[2]==='number').forEach(([k,l])=>check(r[k],l,['share','buffer','utilisation'].includes(k)?100:k==='days'?366:k==='year'?2200:Infinity,['stock','nonfunctional','retire','repairs','incoming','minimum','year'].includes(k),k==='year'?1900:0)));
+ for(const rows of Object.values(data.births))rows.forEach(r=>{check(r.count,'birth count',Infinity,true);check(r.share,'birth share',100);check(r.year,'birth year',2200,true,1900)});
+ for(const rows of Object.values(data.complications))rows.forEach(r=>{check(r.patients,'affected patients',Infinity,true);check(r.events,'clinical events',Infinity,true);check(r.rate,'complication rate',100);check(r.year,'complication year',2200,true,1900)});
+ return errors;
+}
+function cqStatus(){const selected=cqLevels(),named=selected.map(l=>l.name.trim().toLowerCase()),notes=cqIssues(cq).slice(0,1);if(cq.profile.declared&&+cq.profile.declared!==new Set(named).size)notes.push('Declared level count differs from distinct selected national names; confirm aliases.');if(named.length!==new Set(named).size)notes.push('Multiple suggested categories map to the same national name.');const answered=[...cq.questions,...cq.pathways].filter(a=>a.answer||a.selections.some(v=>v!=='')).length;$('cq-status').textContent=`${selected.length} suggested or added categories selected; ${answered} / 44 answerable assessment questions started. ${notes.join(' ')}`;$('cq-derived-A01').textContent=cq.profile.declared||'Enter the national level count in Start and country profile.';$('cq-derived-A02').textContent=selected.map(l=>l.name).join(', ')||'Complete National levels of care.';cqBirthTotal();}
+function cqBuild(){cqProfileBuild();cqRefreshLevelSelectors();cqQuestionsBuild('questions',CLARIFIED.questions,'cq-questions');cqQuestionsBuild('pathways',CLARIFIED.pathwayQuestions,'cq-pathways');cqCaseBuild();cqProductSelect();cqStatus();}
+function cqImport(data){
+ if(!data||data.kind!=='clarified-maternal-questionnaire'||data.version!==1||!data.response)throw Error('Use a clarified questionnaire JSON file');
+ const x=data.response,blank=cqBlank();if(!x.profile||!CQPROFILE.every(([k])=>cqText(x.profile[k])))throw Error('Invalid country profile');
+ if(x.profile.country&&!REFERENCE.countries.some(c=>c.country===x.profile.country))throw Error('Unknown country');
+ const levelKeys=new Set();if(!Array.isArray(x.levels)||x.levels.length>30||!x.levels.every(l=>l&&['id','label','exists','name','facilities','source'].every(k=>cqText(l[k]))&&/^L\d+$/.test(l.id)&&!levelKeys.has(l.id)&&levelKeys.add(l.id)&&['',...CQCHOICES].includes(l.exists)))throw Error('Invalid care levels');
+ for(const [key,questions] of [['questions',CLARIFIED.questions],['pathways',CLARIFIED.pathwayQuestions]])if(!Array.isArray(x[key])||x[key].length!==questions.length||!x[key].every((a,i)=>a&&cqText(a.answer)&&cqText(a.details)&&Array.isArray(a.selections)&&a.selections.length===(questions[i].type==='multiple'?questions[i].choices.length:0)&&a.selections.every(v=>['','Yes','No','Not sure'].includes(v))&&(!a.answer||questions[i].choices.includes(a.answer))))throw Error('Invalid question answers');
+ if(!Array.isArray(x.services)||x.services.length!==blank.services.length||!x.services.every(s=>s&&cqText(s.source)&&['',...CQCHOICES].includes(s.provided)&&s.levels&&!Array.isArray(s.levels)&&Object.entries(s.levels).every(([id,v])=>levelKeys.has(id)&&['',...CQCHOICES].includes(v))))throw Error('Invalid service records');
+ if(!Array.isArray(x.products)||x.products.length<1||x.products.length>300||!x.products.every(r=>r&&CLARIFIED.products.some(p=>p.id===r.id)&&CQPRODUCT.every(([k,,t,options])=>cqText(r[k])&&(t!=='select'||!r[k]||options.includes(r[k]))&&(t!=='choice'||['',...CQCHOICES].includes(r[k]))&&(t!=='level'||!r[k]||levelKeys.has(r[k]))&&(t!=='number'||r[k]===''||cqNumeric(r[k])))&&['services','indications'].every(k=>Array.isArray(r[k])&&new Set(r[k]).size===r[k].length&&r[k].every(v=>CLARIFIED[k==='services'?'serviceChoices':'indications'].includes(v)))))throw Error('Invalid product records');
+ for(const [key,labels,fields] of [['births',CLARIFIED.birthTypes.slice(0,6),['count','share','year','source','notes']],['complications',CLARIFIED.complications,['patients','events','rate','year','source','definition','birthType']]]){if(!x[key]||typeof x[key]!=='object'||Array.isArray(x[key]))throw Error('Missing case records');for(const [scope,rows] of Object.entries(x[key])){if(scope!=='national'&&!levelKeys.has(scope)||!Array.isArray(rows)||rows.length!==labels.length||!rows.every(r=>r&&fields.every(k=>cqText(r[k]))))throw Error('Invalid case records');}}
+ const issues=cqIssues(x);if(issues.length)throw Error(issues[0]);
+ return Object.fromEntries(Object.keys(blank).map(k=>[k,x[k]]));
+}
+$('cq-service').innerHTML=CLARIFIED.services.map((s,i)=>`<option value="${i}">${esc(s)}</option>`).join('');$('cq-category').innerHTML=[...new Set(CLARIFIED.products.map(p=>p.category))].map(c=>`<option>${esc(c)}</option>`).join('');
+$('cq-service').onchange=cqServiceBuild;$('cq-case-level').onchange=cqCaseBuild;$('cq-category').onchange=cqProductSelect;$('cq-record').onchange=cqProductBuild;
+$('cq-add-level').onclick=()=>{if(cq.levels.length>=30)return;const next=Math.max(-1,...cq.levels.map(l=>+l.id.slice(1)))+1;cq.levels.push({id:'L'+next,label:'Additional national category '+next,exists:'',name:'',facilities:'',source:''});cqDirty=true;cqProfileBuild();};
+$('cq-add-record').onclick=()=>{if(cq.products.length>=300)return;const current=cq.products[+$('cq-record').value||0];cq.products.push(cqRecord(current.id));cqDirty=true;cqProductSelect();$('cq-record').value=String(cq.products.length-1);cqProductBuild();};
+$('cq-save').onclick=()=>{const issues=cqIssues(cq);if(issues.length){$('cq-message').textContent=issues[0];return}download('clarified-country-questionnaire.json',JSON.stringify({kind:'clarified-maternal-questionnaire',version:1,response:cq},null,2),'application/json');$('cq-message').textContent='Questionnaire saved, including incomplete entries. Keep the file under agreed access controls.';};
+$('cq-load').onchange=async e=>{try{const file=e.target.files[0];if(!file)return;if(cqDirty)throw Error('Save current entries and start a new questionnaire before loading');if(file.size>2000000)throw Error('File exceeds 2 MB');const next=cqImport(JSON.parse(await file.text()));cq=next;cqDirty=true;cqBuild();$('cq-message').textContent='Questionnaire restored. Review incomplete entries and country sources.';}catch(err){$('cq-message').textContent='Could not load: '+err.message}finally{e.target.value=''}};
+$('cq-clear').onclick=()=>{if(cqDirty){$('cq-discard').classList.remove('hide');$('cq-message').textContent='Save first, or explicitly discard to start a new response.';}else{cq=cqBlank();cqBuild()}};
+$('cq-discard').onclick=()=>{cq=cqBlank();cqDirty=false;cqBuild();$('cq-discard').classList.add('hide');$('cq-message').textContent='New blank questionnaire.'};
+$('cq-export').onclick=()=>{
+ const issues=cqIssues(cq);if(issues.length){$('cq-message').textContent=issues[0];return}
+ const rows=[['Country','Section','Record','Field','Value']];const add=(s,r,k,v)=>rows.push([cq.profile.country,s,r,k,v]);
+ CQPROFILE.forEach(([k,l])=>add('Profile','',l,cq.profile[k]));cq.levels.forEach(l=>Object.entries(l).forEach(([k,v])=>add('Levels',l.id,k,v)));
+ for(const [key,questions] of [['questions',CLARIFIED.questions],['pathways',CLARIFIED.pathwayQuestions]])questions.forEach((q,i)=>{add(key,q.code,q.question,cq[key][i].answer);add(key,q.code,'Details or source',cq[key][i].details);q.type==='multiple'&&q.choices.forEach((v,j)=>add(key,q.code,v,cq[key][i].selections[j]));});
+ cq.services.forEach((s,i)=>{add('Services',CLARIFIED.services[i],'Provided',s.provided);add('Services',CLARIFIED.services[i],'Source',s.source);Object.entries(s.levels).forEach(([id,v])=>add('Services',CLARIFIED.services[i],id,v));});
+ for(const key of ['births','complications'])Object.entries(cq[key]).forEach(([scope,items])=>items.forEach((r,i)=>Object.entries(r).forEach(([k,v])=>add(key,scope+' / '+(key==='births'?CLARIFIED.birthTypes[i]:CLARIFIED.complications[i]),k,v))));
+ cq.products.forEach((r,i)=>{if(!r.scope&&!r.used&&!r.workload)return;const name=CLARIFIED.products.find(p=>p.id===r.id).name+' / record '+(i+1);Object.entries(r).forEach(([k,v])=>add('Products',name,k,Array.isArray(v)?v.join('; '):v));const result=cqResult(r);for(const k of ['eligible','capacity','gross','available','gap','cost','status'])add('Product results',name,k,result[k]??'Unknown');});
+ download('clarified-country-questionnaire.csv','\ufeff'+rows.map(r=>r.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8');$('cq-message').textContent='CSV exported. Unknown results and blanks are retained.';
+};
+cqBuild();
+
+tab(6);
 </script>
 </body>
 </html>

@@ -1,0 +1,1101 @@
+{
+  "source": "UNFPA_Country_Questionnaire_Clarified_Equipment_Workload.xlsx",
+  "questions": [
+    {
+      "code": "A01",
+      "section": "A",
+      "question": "How many distinct levels of care are recognised in your country?",
+      "choices": [
+        "Reference: Count levels in START & COUNTRY, then complete LEVELS OF CARE."
+      ],
+      "type": "derived"
+    },
+    {
+      "code": "A02",
+      "section": "A",
+      "question": "Which levels of care are formally recognised in your country?",
+      "choices": [
+        "Choose all recognised levels in LEVELS OF CARE"
+      ],
+      "type": "derived"
+    },
+    {
+      "code": "A03",
+      "section": "A",
+      "question": "Are maternal health service packages formally defined for each level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "A04",
+      "section": "A",
+      "question": "Which maternal health services are provided in your country?",
+      "choices": [
+        "Antenatal care",
+        "Normal delivery",
+        "Basic emergency obstetric and newborn care",
+        "Comprehensive emergency obstetric and newborn care",
+        "Postnatal care",
+        "Maternal referral and emergency stabilisation",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "A05",
+      "section": "A",
+      "question": "Do maternal health services differ between facilities classified at the same level of care?",
+      "choices": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B01",
+      "section": "B",
+      "question": "Which healthcare staff cadres provide maternal health services in your country?",
+      "choices": [
+        "Midwife",
+        "Nurse",
+        "Medical officer / physician",
+        "Obstetrician / gynaecologist",
+        "Clinical officer",
+        "Anaesthesia provider",
+        "Biomedical / equipment personnel",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "B02",
+      "section": "B",
+      "question": "Are official maternal health staffing norms available by level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B03",
+      "section": "B",
+      "question": "Which staffing figures are available for maternal health services?",
+      "choices": [
+        "Actual staffing numbers",
+        "Approved staffing norms",
+        "Both available",
+        "Neither available",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "B04",
+      "section": "B",
+      "question": "Which maternal health service workload indicators are routinely recorded?",
+      "choices": [
+        "ANC first visits",
+        "Total ANC visits",
+        "Annual deliveries",
+        "Emergency obstetric cases",
+        "Caesarean sections",
+        "Postnatal visits",
+        "Pregnant women / expected births",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "B05",
+      "section": "B",
+      "question": "How are equipment requirements currently specified in national standards?",
+      "choices": [
+        "Per individual staff member",
+        "Per clinical team",
+        "Per delivery room / service point",
+        "Per facility",
+        "Per bed",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C01",
+      "section": "C",
+      "question": "Which categories of maternal health commodities and equipment are used in your country?",
+      "choices": [
+        "Single-use maternal health commodities",
+        "Reusable medical devices",
+        "Durable medical equipment",
+        "Accessories / replacement components",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C02",
+      "section": "C",
+      "question": "Is there an approved list of maternal health commodities and equipment for each level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C03",
+      "section": "C",
+      "question": "What bases are specified in national standards for determining product quantities?",
+      "choices": [
+        "Facility-level equipment norm",
+        "Staffing / team norm",
+        "Room / service point norm",
+        "Service utilisation / case load",
+        "Population / expected pregnancies",
+        "Combined / hybrid method",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "C04",
+      "section": "C",
+      "question": "Are approved equipment quantities or commodity use factors documented by service or level of care?",
+      "choices": [
+        "All products",
+        "Some products",
+        "None",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C05",
+      "section": "C",
+      "question": "Are maternal health products classified as single-use commodities, reusable devices or durable equipment?",
+      "choices": [
+        "Yes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "C06",
+      "section": "C",
+      "question": "Which stock, inventory and incoming supply records are currently maintained?",
+      "choices": [
+        "Available usable commodity stock",
+        "Functional equipment on hand",
+        "Confirmed pipeline / deliveries",
+        "Stock buffer / safety stock",
+        "Equipment due for replacement",
+        "Repairable non-functional equipment",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D01",
+      "section": "D",
+      "question": "How are maternal health commodity and equipment requirements currently estimated?",
+      "choices": [
+        "Excel quantification",
+        "Paper-based tally / manual",
+        "Needs assessments",
+        "Historical procurement quantities",
+        "Facility or staffing standards",
+        "Service utilisation",
+        "Expert estimate",
+        "No formal approach",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D02",
+      "section": "D",
+      "question": "Which methods are currently used to determine maternal health commodity and equipment requirements?",
+      "choices": [
+        "Facility-level equipment norm",
+        "Staffing / team norm",
+        "Room / service point norm",
+        "Service utilisation / case load",
+        "Population / expected pregnancies",
+        "Combined / hybrid method",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D03",
+      "section": "D",
+      "question": "Which planning parameters are routinely updated during maternal health quantification?",
+      "choices": [
+        "Number of facilities",
+        "Staff numbers",
+        "Service utilisation / caseload",
+        "Service coverage",
+        "Product norms / use factors",
+        "Planning period",
+        "Expected stock availability",
+        "Costs / prices",
+        "No formal parameter review",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "D04",
+      "section": "D",
+      "question": "What planning period is normally used for maternal health commodity and equipment quantification?",
+      "choices": [
+        "1 year",
+        "2 years",
+        "3 years",
+        "4 years",
+        "5 years",
+        "User selected",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "D05",
+      "section": "D",
+      "question": "How frequently are maternal health commodity or equipment requirements reviewed?",
+      "choices": [
+        "Monthly",
+        "Quarterly",
+        "Annually",
+        "As needed",
+        "Other (specify)"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "D06",
+      "section": "D",
+      "question": "Which quantitative outputs are currently prepared during maternal health planning?",
+      "choices": [
+        "Gross forecast quantities",
+        "Functional equipment requirements",
+        "Net quantities after stock / pipeline",
+        "Procurement quantities",
+        "Estimated costs",
+        "Funding shortfall",
+        "No calculations currently prepared",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E01",
+      "section": "E",
+      "question": "Is an up-to-date facility master list available, including each facility level of care?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "E02",
+      "section": "E",
+      "question": "Which staffing datasets are currently available for maternal health planning?",
+      "choices": [
+        "Actual staff by cadre and facility",
+        "Approved staff establishment",
+        "Minimum staffing norms by care level",
+        "No staffing dataset available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E03",
+      "section": "E",
+      "question": "Which maternal health service and population datasets are currently available?",
+      "choices": [
+        "ANC visits",
+        "Deliveries",
+        "Complication / procedure counts",
+        "Population or expected pregnancy estimates",
+        "No service data available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "E04",
+      "section": "E",
+      "question": "Which maternal health commodity and equipment datasets are currently available?",
+      "choices": [
+        "Product master list",
+        "Equipment norms",
+        "Commodity stock on hand",
+        "Functional equipment inventory",
+        "Confirmed pipeline",
+        "Unit prices",
+        "No product/supply dataset available",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F01",
+      "section": "F",
+      "question": "At which administrative levels are maternal health commodity and equipment requirements currently compiled?",
+      "choices": [
+        "Facility",
+        "District",
+        "Region / Province",
+        "Country total",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F02",
+      "section": "F",
+      "question": "How are maternal health planning data currently collected or submitted?",
+      "choices": [
+        "Paper forms",
+        "Manual entry into Excel",
+        "Standard reporting templates",
+        "Electronic health information system",
+        "CSV / Excel file submission",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F03",
+      "section": "F",
+      "question": "Which maternal health quantification reports or summaries are currently produced?",
+      "choices": [
+        "Product quantities by level of care",
+        "Product quantities by geography",
+        "Staff / service-linked requirements",
+        "Total costs",
+        "Gross vs net procurement gap",
+        "Excel tables",
+        "PDF / printed summary",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "F04",
+      "section": "F",
+      "question": "What format is currently used to prepare and share maternal health quantification results?",
+      "choices": [
+        "Excel spreadsheet",
+        "Web-based system",
+        "Paper forms",
+        "Mixed formats",
+        "No standard format",
+        "Other (specify)"
+      ],
+      "type": "single"
+    }
+  ],
+  "pathwayQuestions": [
+    {
+      "code": "P01",
+      "section": "P",
+      "question": "Are annual birth counts available separately for spontaneous vaginal, assisted vaginal, planned caesarean and emergency caesarean births?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P02",
+      "section": "P",
+      "question": "Which classifications of delivery are routinely recorded in your country's maternal health reporting?",
+      "choices": [
+        "Spontaneous vaginal birth",
+        "Assisted vaginal birth (vacuum/forceps)",
+        "Planned caesarean birth",
+        "Emergency caesarean birth",
+        "Multiple birth (flag separately; not additive)",
+        "Other delivery classification (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P03",
+      "section": "P",
+      "question": "At which levels of care are the different delivery methods provided? (Complete BIRTH TYPES & VOLUMES.)",
+      "choices": [
+        "Completed separately",
+        "Partially available",
+        "Not available"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P04",
+      "section": "P",
+      "question": "Are complications such as postpartum haemorrhage, pre-eclampsia/eclampsia, sepsis, obstructed labour and preterm birth recorded separately?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P05",
+      "section": "P",
+      "question": "Are annual complication case counts available by level of care and delivery type?",
+      "choices": [
+        "Yes",
+        " both",
+        "By level only",
+        "By delivery type only",
+        "National total only",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P06",
+      "section": "P",
+      "question": "Are standard care packages or commodity lists documented for each type of birth?",
+      "choices": [
+        "Yes",
+        " nationally",
+        "Yes",
+        " at some levels",
+        "Partially",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P07",
+      "section": "P",
+      "question": "Are additional medicines, surgical supplies, diagnostics or equipment specified for particular obstetric complications?",
+      "choices": [
+        "Yes",
+        " nationally",
+        "Yes",
+        " at some levels",
+        "Partially",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P08",
+      "section": "P",
+      "question": "What is the standard basis for estimating quantities of medicines and surgical supplies used during delivery?",
+      "choices": [
+        "Per patient",
+        "Per normal vaginal birth",
+        "Per assisted vaginal birth",
+        "Per caesarean birth",
+        "Per clinical complication case",
+        "Per procedure",
+        "Per laboratory test",
+        "Per antenatal visit",
+        "Per delivery room / service point",
+        "Per health worker / team",
+        "Per facility",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P09",
+      "section": "P",
+      "question": "Are typical numbers of laboratory tests per pregnancy, delivery or obstetric complication documented?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P10",
+      "section": "P",
+      "question": "Are procedures, tests or treatments repeated during the same patient's care, and are repeat frequencies recorded?",
+      "choices": [
+        "Yes",
+        " routinely",
+        "Sometimes",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P11",
+      "section": "P",
+      "question": "Are patient transfers/referrals tracked so the same event is not counted twice across facilities?",
+      "choices": [
+        "Yes",
+        "Partly",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P12",
+      "section": "P",
+      "question": "Are staffing, equipment readiness and service-point standards specified for each delivery method?",
+      "choices": [
+        "Yes",
+        " all",
+        "Yes",
+        " some",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P13",
+      "section": "P",
+      "question": "Which sources define the required items and quantities for each delivery pathway or complication?",
+      "choices": [
+        "National standard treatment guidelines",
+        "Maternal / obstetric service protocols",
+        "Essential medicines list",
+        "National equipment standards",
+        "Clinical care bundles",
+        "Facility records / registers",
+        "Consumption or procurement records",
+        "Professional expert consensus",
+        "Other (specify)"
+      ],
+      "type": "multiple"
+    },
+    {
+      "code": "P14",
+      "section": "P",
+      "question": "Is the annual number of births or obstetric cases available for each facility or facility level?",
+      "choices": [
+        "Facility-level",
+        "Level-level only",
+        "National only",
+        "Not available",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P15",
+      "section": "P",
+      "question": "For single-use products, are standard units per patient, delivery, procedure or test specified?",
+      "choices": [
+        "Yes",
+        " all products",
+        "Yes",
+        " some products",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    },
+    {
+      "code": "P16",
+      "section": "P",
+      "question": "For reusable equipment, are minimum units per service point, facility or clinical team specified?",
+      "choices": [
+        "Yes",
+        " all equipment",
+        "Yes",
+        " some equipment",
+        "No",
+        "Not sure"
+      ],
+      "type": "single"
+    }
+  ],
+  "products": [
+    {
+      "id": "EQUIPMENT-6",
+      "category": "EQUIPMENT",
+      "name": "Blood pressure monitor",
+      "use": "Maternal assessment"
+    },
+    {
+      "id": "EQUIPMENT-7",
+      "category": "EQUIPMENT",
+      "name": "Ultrasound scanner",
+      "use": "Antenatal / obstetric assessment"
+    },
+    {
+      "id": "EQUIPMENT-8",
+      "category": "EQUIPMENT",
+      "name": "Fetal Doppler",
+      "use": "Fetal monitoring"
+    },
+    {
+      "id": "EQUIPMENT-9",
+      "category": "EQUIPMENT",
+      "name": "Cardiotocography (CTG) machine",
+      "use": "Fetal monitoring"
+    },
+    {
+      "id": "EQUIPMENT-10",
+      "category": "EQUIPMENT",
+      "name": "Delivery bed",
+      "use": "Childbirth"
+    },
+    {
+      "id": "EQUIPMENT-11",
+      "category": "EQUIPMENT",
+      "name": "Examination couch",
+      "use": "ANC / clinical examination"
+    },
+    {
+      "id": "EQUIPMENT-12",
+      "category": "EQUIPMENT",
+      "name": "Patient monitor",
+      "use": "Emergency obstetric care"
+    },
+    {
+      "id": "EQUIPMENT-13",
+      "category": "EQUIPMENT",
+      "name": "Suction machine",
+      "use": "Delivery / emergency"
+    },
+    {
+      "id": "EQUIPMENT-14",
+      "category": "EQUIPMENT",
+      "name": "Oxygen concentrator",
+      "use": "Emergency care"
+    },
+    {
+      "id": "EQUIPMENT-15",
+      "category": "EQUIPMENT",
+      "name": "Non-pneumatic anti-shock garment",
+      "use": "Postpartum haemorrhage management"
+    },
+    {
+      "id": "EQUIPMENT-16",
+      "category": "EQUIPMENT",
+      "name": "Infusion pump",
+      "use": "Emergency care"
+    },
+    {
+      "id": "EQUIPMENT-17",
+      "category": "EQUIPMENT",
+      "name": "Sterilisation equipment / autoclave",
+      "use": "Infection prevention"
+    },
+    {
+      "id": "EQUIPMENT-18",
+      "category": "EQUIPMENT",
+      "name": "Instrument trolley",
+      "use": "Delivery / procedures"
+    },
+    {
+      "id": "EQUIPMENT-19",
+      "category": "EQUIPMENT",
+      "name": "Other equipment (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "MEDICINES-6",
+      "category": "MEDICINES",
+      "name": "Oxytocin injection",
+      "use": "Prevention / treatment of PPH"
+    },
+    {
+      "id": "MEDICINES-7",
+      "category": "MEDICINES",
+      "name": "Misoprostol tablets",
+      "use": "PPH prevention / management"
+    },
+    {
+      "id": "MEDICINES-8",
+      "category": "MEDICINES",
+      "name": "Tranexamic acid injection",
+      "use": "PPH treatment"
+    },
+    {
+      "id": "MEDICINES-9",
+      "category": "MEDICINES",
+      "name": "Magnesium sulfate injection",
+      "use": "Pre-eclampsia / eclampsia"
+    },
+    {
+      "id": "MEDICINES-10",
+      "category": "MEDICINES",
+      "name": "Calcium gluconate injection",
+      "use": "Management of magnesium toxicity"
+    },
+    {
+      "id": "MEDICINES-11",
+      "category": "MEDICINES",
+      "name": "Antihypertensive medicines",
+      "use": "Hypertensive disorders of pregnancy"
+    },
+    {
+      "id": "MEDICINES-12",
+      "category": "MEDICINES",
+      "name": "Iron and folic acid tablets",
+      "use": "Antenatal care"
+    },
+    {
+      "id": "MEDICINES-13",
+      "category": "MEDICINES",
+      "name": "Antenatal corticosteroids",
+      "use": "Preterm birth management"
+    },
+    {
+      "id": "MEDICINES-14",
+      "category": "MEDICINES",
+      "name": "Antibiotics for maternal infection",
+      "use": "Infection management"
+    },
+    {
+      "id": "MEDICINES-15",
+      "category": "MEDICINES",
+      "name": "Local anaesthetics",
+      "use": "Maternal procedures"
+    },
+    {
+      "id": "MEDICINES-16",
+      "category": "MEDICINES",
+      "name": "IV fluids",
+      "use": "Maternal emergency care"
+    },
+    {
+      "id": "MEDICINES-17",
+      "category": "MEDICINES",
+      "name": "Other medicine (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "SURGICAL-6",
+      "category": "SURGICAL",
+      "name": "Sterile delivery kit / pack",
+      "use": "Childbirth"
+    },
+    {
+      "id": "SURGICAL-7",
+      "category": "SURGICAL",
+      "name": "Sterile surgical gloves",
+      "use": "Delivery / procedures"
+    },
+    {
+      "id": "SURGICAL-8",
+      "category": "SURGICAL",
+      "name": "Examination gloves",
+      "use": "Maternal care"
+    },
+    {
+      "id": "SURGICAL-9",
+      "category": "SURGICAL",
+      "name": "Suture materials",
+      "use": "Perineal / surgical repair"
+    },
+    {
+      "id": "SURGICAL-10",
+      "category": "SURGICAL",
+      "name": "Scalpel blades",
+      "use": "Surgical procedures"
+    },
+    {
+      "id": "SURGICAL-11",
+      "category": "SURGICAL",
+      "name": "Sterile gauze / dressings",
+      "use": "Delivery / surgical care"
+    },
+    {
+      "id": "SURGICAL-12",
+      "category": "SURGICAL",
+      "name": "Urinary catheter",
+      "use": "Obstetric procedures"
+    },
+    {
+      "id": "SURGICAL-13",
+      "category": "SURGICAL",
+      "name": "IV cannula / administration set",
+      "use": "Maternal care"
+    },
+    {
+      "id": "SURGICAL-14",
+      "category": "SURGICAL",
+      "name": "Syringes and needles",
+      "use": "Medicines administration"
+    },
+    {
+      "id": "SURGICAL-15",
+      "category": "SURGICAL",
+      "name": "Uterine balloon tamponade kit",
+      "use": "PPH treatment"
+    },
+    {
+      "id": "SURGICAL-16",
+      "category": "SURGICAL",
+      "name": "Calibrated blood collection drape",
+      "use": "Delivery / PPH detection"
+    },
+    {
+      "id": "SURGICAL-17",
+      "category": "SURGICAL",
+      "name": "Caesarean section procedure pack",
+      "use": "Operative delivery"
+    },
+    {
+      "id": "SURGICAL-18",
+      "category": "SURGICAL",
+      "name": "Sterilisation packaging / indicators",
+      "use": "Instrument reprocessing"
+    },
+    {
+      "id": "SURGICAL-19",
+      "category": "SURGICAL",
+      "name": "Other surgical supply (specify)",
+      "use": "Other"
+    },
+    {
+      "id": "LAB-6",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Haemoglobin test / consumables",
+      "use": "Anaemia screening"
+    },
+    {
+      "id": "LAB-7",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood grouping / Rh typing reagents",
+      "use": "Antenatal laboratory services"
+    },
+    {
+      "id": "LAB-8",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Urine protein test strips",
+      "use": "Pre-eclampsia screening"
+    },
+    {
+      "id": "LAB-9",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Urine pregnancy test",
+      "use": "Pregnancy confirmation"
+    },
+    {
+      "id": "LAB-10",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "HIV rapid diagnostic tests",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-11",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Syphilis rapid tests",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-12",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Hepatitis B test kits",
+      "use": "Antenatal screening"
+    },
+    {
+      "id": "LAB-13",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Malaria rapid diagnostic tests",
+      "use": "Febrile illness / malaria screening"
+    },
+    {
+      "id": "LAB-14",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood glucose test strips",
+      "use": "Diabetes screening"
+    },
+    {
+      "id": "LAB-15",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Full blood count reagents / tests",
+      "use": "Laboratory assessment"
+    },
+    {
+      "id": "LAB-16",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Blood crossmatch reagents",
+      "use": "Transfusion preparation"
+    },
+    {
+      "id": "LAB-17",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Sample collection tubes / lancets",
+      "use": "Sample collection"
+    },
+    {
+      "id": "LAB-18",
+      "category": "LAB & DIAGNOSTICS",
+      "name": "Other laboratory or diagnostic item (specify)",
+      "use": "Other"
+    }
+  ],
+  "levelOptions": [
+    "Health post",
+    "Health centre",
+    "Level 1",
+    "Level 2",
+    "Level 3",
+    "Level 4",
+    "Other (specify)"
+  ],
+  "services": [
+    "Antenatal care (ANC)",
+    "Routine antenatal risk screening",
+    "Normal vaginal delivery",
+    "Postnatal care (maternal)",
+    "Postnatal care (newborn)",
+    "Maternal referral and emergency stabilisation",
+    "Basic emergency obstetric and newborn care (BEmONC)",
+    "Comprehensive emergency obstetric and newborn care (CEmONC)",
+    "Management of postpartum haemorrhage",
+    "Management of hypertensive disorders/eclampsia",
+    "Management of maternal sepsis",
+    "Caesarean section",
+    "Assisted vaginal delivery",
+    "Obstetric ultrasound services",
+    "Fetal monitoring (Doppler/CTG)",
+    "Maternal anaemia screening",
+    "Blood grouping and crossmatching",
+    "Blood transfusion for obstetric emergencies",
+    "Urinalysis / proteinuria screening",
+    "Family planning / postpartum contraception",
+    "Post-abortion care (where provided)",
+    "Other (specify)"
+  ],
+  "serviceChoices": [
+    "Antenatal care",
+    "Routine labour and delivery",
+    "Postnatal care",
+    "Basic emergency obstetric and newborn care",
+    "Comprehensive emergency obstetric and newborn care",
+    "Obstetric emergency stabilisation / referral",
+    "Caesarean section",
+    "Family planning / post-abortion care",
+    "Maternal laboratory screening",
+    "Obstetric ultrasound / imaging",
+    "Maternal monitoring / observation",
+    "Blood transfusion services",
+    "Other (specify)",
+    "Not known"
+  ],
+  "indications": [
+    "Routine pregnancy / preventive care",
+    "Normal labour / delivery",
+    "Postpartum haemorrhage (PPH)",
+    "Antepartum haemorrhage",
+    "Pre-eclampsia / eclampsia",
+    "Hypertension in pregnancy",
+    "Maternal anaemia",
+    "Maternal sepsis / infection",
+    "Obstructed / prolonged labour",
+    "Preterm labour / birth",
+    "Gestational diabetes",
+    "Malaria in pregnancy",
+    "HIV in pregnancy",
+    "Syphilis in pregnancy",
+    "Hepatitis B in pregnancy",
+    "Blood group / Rh incompatibility",
+    "Obstetric surgery / caesarean section",
+    "Maternal resuscitation / shock",
+    "Postpartum care / complications",
+    "Other (specify)",
+    "Not known"
+  ],
+  "birthTypes": [
+    "Spontaneous vaginal birth",
+    "Assisted vaginal birth (vacuum/forceps)",
+    "Planned caesarean birth",
+    "Emergency caesarean birth",
+    "Multiple birth (flag separately; not additive)",
+    "Other delivery classification (specify)",
+    "All delivery types",
+    "Not linked to delivery mode",
+    "Other (specify)"
+  ],
+  "stages": [
+    "Antenatal care",
+    "Labour / intrapartum care",
+    "Delivery",
+    "Immediate postnatal care",
+    "Emergency obstetric care",
+    "Laboratory screening / diagnosis",
+    "Postnatal follow-up",
+    "Other (specify)"
+  ],
+  "triggers": [
+    "Per patient",
+    "Per birth",
+    "Per specific birth type",
+    "Per complication case",
+    "Per procedure",
+    "Per test",
+    "Per visit",
+    "Per facility",
+    "Per delivery room",
+    "Per clinical team",
+    "Per staff member",
+    "Other (specify)"
+  ],
+  "bases": [
+    "Per facility",
+    "Per health worker",
+    "Per clinical team",
+    "Per service point / room",
+    "Per maternity bed",
+    "Per patient",
+    "Per ANC visit",
+    "Per delivery",
+    "Per procedure / case",
+    "Per test",
+    "Per population",
+    "Per equipment replacement",
+    "Other (specify)",
+    "Not known"
+  ],
+  "complications": [
+    "No documented obstetric complication",
+    "Postpartum haemorrhage",
+    "Hypertensive disorder / pre-eclampsia",
+    "Eclampsia",
+    "Maternal sepsis / infection",
+    "Obstructed or prolonged labour",
+    "Preterm labour / birth",
+    "Anaemia requiring clinical management",
+    "Retained placenta",
+    "Ruptured membranes / maternal infection risk",
+    "Other complication (specify)"
+  ]
+}
