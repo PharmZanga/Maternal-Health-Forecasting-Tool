@@ -4,6 +4,8 @@ Open `maternal-needs-forecast.html` in a browser, or serve the repository as a s
 
 The tool opens with a fictional maternity centre and a worked example. Change the number of years to explore the results, then select **Start a real plan** to enter your own facility information. Downloads of the example are labeled as dummy data.
 
+Use the information button next to a field to see what to enter and which records can supply the data.
+
 ## Workflow
 
 1. Choose a first calendar year and 1–20 forecast years. Enter the facility and, for estimated costs, its currency.

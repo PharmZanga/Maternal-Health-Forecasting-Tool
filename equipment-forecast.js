@@ -18,6 +18,47 @@ const STARTER_ITEMS = [
   ['Uterine balloon tamponade', 'single']
 ];
 
+const FIELD_INFO = {
+  startYear: 'Enter the first calendar year covered by the plan, for example 2027. Count opening stock as of the start of that year.',
+  years: 'Enter a whole number from 1 to 20. For example, 3 years starting in 2027 covers 2027–2029.',
+  facility: 'Enter the facility’s official name or code from the facility register. Use one plan per facility.',
+  currency: 'Enter the three-letter currency code for all unit costs, for example ZMW. Leave blank if you are forecasting quantities only.',
+  country: 'Enter the country where the facility operates. This field is optional.',
+  district: 'Enter the district or equivalent area responsible for the facility. Use the name in the facility register.',
+  level: 'Enter the facility’s classification from the facility register, for example health centre or district hospital.',
+  inventoryDate: 'Enter the date the physical inventory was checked. Use a date on or before the forecast starts and account for any changes between the count and the start of the forecast.',
+  item: 'Select a device already in this plan to review or edit its data. Use Add equipment below to add another device.',
+  catalog: 'Choose an equipment type from the list, or select Custom equipment if it is missing. Then select Add item.',
+  filter: 'Select a year to view that year’s equipment breakdown. The annual summary and CSV download cover the full forecast period.',
+  name: 'Use the device name from the asset register, inventory list or procurement specification. For example, Ultrasound machine.',
+  method: 'Choose Fixed number of units if you already know the target, Annual service workload if you have service counts and capacity, or Units per service point if you have a norm per room, station or team.',
+  points: 'Enter the whole number of rooms, stations or teams that need this equipment. Use the service plan or facility layout. For example, enter 3 for three delivery rooms.',
+  unitsPerPoint: 'Enter the number of devices specified per service point in your local standard. For example, 2 devices per room across 3 rooms gives 6 devices. For a single-use device, use the annual quantity per point.',
+  events: 'Enter the expected number of relevant services at this facility in the first forecast year. Use service registers or a service plan. For ultrasound, enter scan visits if each visit represents one scan.',
+  growth: 'Enter the expected percentage change in activity each year. Use recent service trends or expansion plans. Enter 10 for 10% annual growth, 0 for no change, or -5 for a 5% decline.',
+  eligible: 'Of all the events entered, what percentage needs this device? For example, enter 40 if 40 of every 100 events require it. Enter 100 if your event count already includes only eligible services.',
+  coverage: 'Of the eligible events, what percentage do you plan to serve? For example, enter 75 if you plan to cover 30 of 40 eligible events. Use 100 to plan for all eligible events.',
+  capacity: 'Enter how many of the same services one working unit could provide in a year at full capacity. For example, 5 scans per day × 200 operating days gives 1,000 scans per unit per year.',
+  usable: 'Enter the share of full capacity you can use after allowing for downtime or staff availability. Enter 80 for 80%. If the capacity you entered already accounts for those limits, enter 100.',
+  usePerEvent: 'Enter how many single-use devices are needed for one eligible service, using the approved service standard. Enter 1 if each event uses one device.',
+  minimum: 'Enter the lowest number of units that must be available even when estimated demand is low. Use a local equipment standard or an agreed facility target. Enter 0 if no minimum applies.',
+  target: 'Enter the whole number of devices needed at the facility, using a local standard or agreed target. For example, enter 6 if the facility needs six working monitors. For single-use devices, enter the quantity needed each year.',
+  buffer: 'Enter the percentage to add to the calculated need for peaks or uncertainty. For example, enter 10 to add 10%. Enter 0 if you do not need a buffer.',
+  functional: 'Count units at this facility that are ready for use at the start of the forecast. Use a physical count checked against the inventory. Exclude broken devices and orders that have yet to arrive.',
+  nonfunctional: 'Count existing units that are out of service at the start of the forecast. Keep them separate from working units. Enter 0 if none are out of service, or leave blank if the count is unknown.',
+  life: 'Enter the expected number of years a newly purchased unit can stay in service. Use the asset policy or biomedical team’s estimate. This is required for a reusable device forecast covering more than one year.',
+  cost: 'Enter the cost to buy and deliver one unit in the plan currency. Use a recent quote or purchase record. For example, enter 50000 for ZMW 50,000. Leave blank if unknown.',
+  enabled: 'Select this box to include the device in the forecast. Include a single-use device only if another platform does not already forecast it.',
+  type: 'Choose Reusable equipment for devices kept in service across multiple uses, or Single-use device for units used up during a service.',
+  variant: 'Record the model, size, or specification if variants are planned separately. For example, Handheld ultrasound.',
+  service: 'Name the service that uses this item. Use the same service name and unit as your workload and capacity data.',
+  evidence: 'Note the register, report or quote used, its period or date, and who verified it. For example, 2026 ultrasound register, verified by the facility equipment lead.',
+  readiness: 'Note any installation, power, maintenance or training needs that could affect when the equipment is usable.',
+  retire: 'Enter the whole number of existing units expected to leave service or expire in that year. Use the asset or stock register. Count only units available at the start of that year.',
+  repair: 'Enter the whole number of out-of-service units with confirmed repairs that will be ready by the year’s need date. Check the maintenance schedule.',
+  arrive: 'Enter the whole number of units on funded, confirmed orders that will arrive and be usable by the year’s need date. Use the procurement or order register.'
+};
+
 const blank = value => value === '' || value === undefined;
 function number(value, {min = 0, max = Number.MAX_SAFE_INTEGER, whole = false} = {}) {
   if (blank(value) || !['string', 'number'].includes(typeof value) || String(value).trim() === '') return null;
@@ -249,11 +290,59 @@ function init() {
     return !dirty || plan.example || window.confirm('Replace this plan and discard unsaved changes?');
   }
 
-  function input(item, key, label, attributes = 'maxlength="160"') {
-    return `<label>${label}<input data-field="${key}" value="${escape(item[key])}" ${attributes}></label>`;
+  function addInfo(caption, group, key, label) {
+    const id = `info-${key}`;
+    const button = document.createElement('button');
+    button.className = 'info-button';
+    button.type = 'button';
+    button.textContent = 'i';
+    button.setAttribute('aria-label', `About ${label}`);
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-controls', id);
+    const help = document.createElement('p');
+    help.id = id;
+    help.className = 'field-info';
+    help.textContent = FIELD_INFO[key];
+    help.hidden = true;
+    button.onclick = () => {
+      help.hidden = !help.hidden;
+      button.setAttribute('aria-expanded', String(!help.hidden));
+    };
+    button.onkeydown = event => {
+      if (event.key === 'Escape' && !help.hidden) button.click();
+    };
+    caption.append(button);
+    group.append(help);
+    return id;
   }
-  function numeric(item, key, label, limits = 'min="0" step="1"') {
-    return input(item, key, label, `type="number" ${limits}`);
+
+  function explainFields(container) {
+    for (const label of container.querySelectorAll('label')) {
+      const control = label.querySelector('input, select, textarea');
+      if (!control) continue;
+      const key = control.dataset.help || control.dataset.field || control.id;
+      if (!Object.hasOwn(FIELD_INFO, key)) continue;
+      const title = [...label.childNodes].filter(node => node.nodeType === 3).map(node => node.textContent).join('').trim();
+      const group = document.createElement('div');
+      group.className = label.className;
+      label.className = '';
+      label.replaceWith(group);
+      const caption = document.createElement('div');
+      caption.className = 'field-caption';
+      group.append(caption);
+      caption.append(label);
+      control.id ||= `item-field-${key}`;
+      label.htmlFor = control.id;
+      if (control.type !== 'checkbox') group.append(control);
+      control.setAttribute('aria-describedby', addInfo(caption, group, key, title));
+    }
+  }
+
+  function input(item, key, label, attributes = 'maxlength="160"', help = key) {
+    return `<label>${label}<input data-field="${key}" data-help="${help}" value="${escape(item[key])}" ${attributes}></label>`;
+  }
+  function numeric(item, key, label, limits = 'min="0" step="1"', help = key) {
+    return input(item, key, label, `type="number" ${limits}`, help);
   }
   function textArea(item, key, label) {
     return `<label>${label}<textarea data-field="${key}" rows="2" maxlength="1000">${escape(item[key])}</textarea></label>`;
@@ -296,7 +385,7 @@ function init() {
           (reusable ? numeric(item, 'capacity', 'Annual events per unit at full capacity', 'min="0" step="any"') +
             numeric(item, 'usable', 'Usable capacity (%)', percent) :
             numeric(item, 'usePerEvent', 'Device units per eligible event', 'min="0" step="any"'))}
-        ${numeric(item, 'minimum', target ? (reusable ? 'Units needed' : 'Units needed each year') : 'Minimum units')}
+        ${numeric(item, 'minimum', target ? (reusable ? 'Units needed' : 'Units needed each year') : 'Minimum units', undefined, target ? 'target' : 'minimum')}
         ${target ? '' : numeric(item, 'buffer', 'Demand buffer (%)', percent)}
       </div>
       <h3>Stock at the start of the forecast</h3>
@@ -320,6 +409,7 @@ function init() {
           ${textArea(item, 'readiness', 'Installation, maintenance or training needs')}
         </div>
       </details>`;
+    explainFields($('editor'));
     renderSchedule();
   }
 
@@ -331,11 +421,15 @@ function init() {
       return;
     }
     const columns = ADJUSTMENTS.filter(([key]) => item.type === 'reusable' || key !== 'repair');
-    $('schedule').innerHTML = `<table><thead><tr><th scope="col">Year</th>${columns.map(([, label]) =>
-      `<th scope="col">${label}</th>`).join('')}</tr></thead><tbody>${years.map(year =>
+    $('schedule').innerHTML = `<table><thead><tr><th scope="col">Year</th>${columns.map(([key, label]) =>
+      `<th scope="col" data-supply-help="${key}"><div class="field-caption">${label}</div></th>`).join('')}</tr></thead><tbody>${years.map(year =>
       `<tr><th scope="row">${year}</th>${columns.map(([key, label]) =>
-        `<td><input aria-label="${label} ${year}" type="number" min="0" step="1" placeholder="0" data-year="${year}" data-adjustment="${key}" value="${escape(item.schedule[year]?.[key])}"></td>`
+        `<td><input aria-label="${label} ${year}" aria-describedby="info-${key}" type="number" min="0" step="1" placeholder="0" data-year="${year}" data-adjustment="${key}" value="${escape(item.schedule[year]?.[key])}"></td>`
       ).join('')}</tr>`).join('')}</tbody></table>`;
+    for (const column of $('schedule').querySelectorAll('[data-supply-help]')) {
+      const caption = column.firstElementChild;
+      addInfo(caption, column, column.dataset.supplyHelp, caption.textContent);
+    }
   }
 
   function renderForecast() {
@@ -491,6 +585,7 @@ function init() {
     download(plan.example ? 'example-equipment-forecast.csv' : 'maternal-equipment-forecast.csv',
       '\ufeff' + [headers, ...rows].map(row => row.map(cell).join(',')).join('\r\n'), 'text/csv;charset=utf-8');
   };
+  explainFields(document);
   renderPlan();
   showStep('results', false);
 }

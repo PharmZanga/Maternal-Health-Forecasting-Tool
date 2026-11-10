@@ -27,6 +27,11 @@
     section details>p:first-of-type{margin-top:8px}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px 16px}
     label{display:block;font-size:.88rem;font-weight:650}
+    .field-caption{display:flex;align-items:center;gap:6px;min-height:26px}
+    .info-button{display:inline-grid;place-items:center;flex:none;width:26px;height:26px;padding:0;border:1px solid var(--teal);border-radius:50%;background:var(--white);color:var(--teal);font:700 .85rem/1 system-ui,sans-serif;cursor:pointer}
+    .info-button[aria-expanded="true"]{background:var(--teal);color:var(--white)}
+    .field-info{margin:6px 0 0;padding:7px 9px;border-left:2px solid var(--teal);background:var(--tint);color:var(--ink);font-size:.82rem;font-weight:400;overflow-wrap:anywhere}
+    #schedule th:has(.info-button){min-width:140px}
     input:not([type=checkbox]),select,textarea{display:block;width:100%;min-width:0;padding:8px;margin-top:4px;border:1px solid #a9c2bf;border-radius:6px;background:#fbfdfc;color:var(--ink);font:inherit}
     textarea{resize:vertical}
     input[type=checkbox]{accent-color:var(--teal)}
@@ -60,7 +65,7 @@
     .simple-table{min-width:490px}
     @media(max-width:600px){.toolbar{grid-template-columns:1fr}}
   </style>
-  <script defer src="equipment-forecast.js?v=guided-1"></script>
+  <script defer src="equipment-forecast.js?v=field-info-1"></script>
 </head>
 <body>
 <header><div class="wrap">
@@ -108,7 +113,7 @@
   </section>
   <section id="assessment" hidden>
     <h2 tabindex="-1">2. Equipment</h2>
-    <p class="note">Pick an item to edit. Enter the number needed, how many are working, and how many are out of service.</p>
+    <p class="note">Pick an item to edit. Select the information button beside a field for help with what to enter.</p>
     <div class="toolbar">
       <label>Equipment item<select id="item"></select></label>
       <div class="actions"><button type="button" id="remove">Remove item</button></div>
