@@ -1,7 +1,7 @@
 const fs = require('fs');
 const vm = require('vm');
 const assert = require('node:assert/strict');
-const html=fs.readFileSync('maternal-needs-forecast.html','utf8');
+const html=fs.readFileSync('tmp/maternal-needs-forecast-legacy.html','utf8');
 const elements=new Map();
 function el(id){if(!elements.has(id))elements.set(id,{id,value:'',min:'',max:'',type:'text',textContent:'',classList:{toggle(){},remove(){}},style:{},setAttribute(){},click(){}});return elements.get(id)}
 function parse(markup){for(const m of markup.matchAll(/<(input|select|textarea|button|div|i|td|section)[^>]*\bid="([^"]+)"[^>]*>/g)){const node=el(m[2]);for(const k of ['value','min','max','type']){const v=m[0].match(new RegExp('\\b'+k+'="([^"]*)"'));if(v)node[k]=v[1]}}}

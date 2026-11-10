@@ -1,5 +1,7 @@
 from pathlib import Path
-p=Path('maternal-needs-forecast.html')
+# Rebuild the historical prototype separately from the equipment-only app.
+p=Path('tmp/maternal-needs-forecast-legacy.html')
+p.parent.mkdir(exist_ok=True)
 s=Path('maternal-needs-forecast.original.html').read_text(encoding='utf-8')
 s=s.replace('</style>', '''
 .equipment-table{min-width:1600px}.equipment-table input{min-width:80px}.equipment-table th{vertical-align:bottom;min-width:88px}.equipment-table th:first-child{min-width:220px}
